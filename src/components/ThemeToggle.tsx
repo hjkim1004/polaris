@@ -5,7 +5,7 @@ import styles from "./ThemeToggle.module.css";
 
 type Theme = "light" | "dark";
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ toLight, toDark }: { toLight: string; toDark: string }) {
   const [theme, setTheme] = useState<Theme | null>(null);
 
   useEffect(() => {
@@ -26,8 +26,8 @@ export default function ThemeToggle() {
       type="button"
       className={styles.toggle}
       onClick={flip}
-      aria-label={theme === "dark" ? "밝은 화면으로" : "어두운 화면으로"}
-      title={theme === "dark" ? "밝은 화면으로" : "어두운 화면으로"}
+      aria-label={theme === "dark" ? toLight : toDark}
+      title={theme === "dark" ? toLight : toDark}
     >
       <span className={styles.icon} aria-hidden="true">
         {theme === "dark" ? "☾" : "☀"}

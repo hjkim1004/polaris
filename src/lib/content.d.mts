@@ -1,4 +1,10 @@
-export type Site = { name: string; tagline: string; domain: string; contactEmail: string };
+export type Site = {
+  name: string;
+  tagline: string;
+  domain: string;
+  contactEmail: string;
+  defaultLocale: string;
+};
 export type AppMeta = {
   slug: string;
   name: string;

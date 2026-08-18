@@ -2,19 +2,30 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { localeLabel } from "@/lib/labels";
+
 import styles from "./LocalePicker.module.css";
+
+/** 언어의 이름은 그 언어 자신의 말로 적는다 — 한국어 화면에서도 «English»다. */
+function endonym(code: string) {
+  try {
+    return new Intl.DisplayNames([code], { type: "language" }).of(code) ?? code;
+  } catch {
+    return code;
+  }
+}
 
 /** 네이티브 <select>는 OS가 그린다 — 우리 디자인 시스템 밖이라 직접 만든다. */
 export default function LocalePicker({
   locales,
   current,
   base,
+  label,
 }: {
   locales: string[];
   current: string;
   /** 문서의 뿌리 주소 — 여기에 언어를 붙여 옮겨간다. */
   base: string;
+  label: string;
 }) {
   const [open, setOpen] = useState(false);
   const box = useRef<HTMLDivElement>(null);
@@ -55,14 +66,14 @@ export default function LocalePicker({
         <span className={styles.globe} aria-hidden="true">
           ⌾
         </span>
-        {localeLabel(current)}
+        {endonym(current)}
         <span className={`${styles.chevron} ${open ? styles.chevronUp : ""}`} aria-hidden="true">
           ⌄
         </span>
       </button>
 
       {open ? (
-        <ul className={styles.menu} role="listbox" aria-label="언어 고르기">
+        <ul className={styles.menu} role="listbox" aria-label={label}>
           {locales.map((locale) => (
             <li key={locale}>
               <button
@@ -72,7 +83,7 @@ export default function LocalePicker({
                 className={`${styles.option} ${locale === current ? styles.optionOn : ""}`}
                 onClick={() => go(locale)}
               >
-                {localeLabel(locale)}
+                {endonym(locale)}
                 {locale === current ? <span aria-hidden="true">✓</span> : null}
               </button>
             </li>

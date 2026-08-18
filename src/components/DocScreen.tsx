@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { AppMeta, DocMeta, VersionDoc } from "@/lib/content.mjs";
-import { formatDate, kindLabel, localeLabel } from "@/lib/labels";
+import { formatDate } from "@/lib/labels";
+import { strings } from "@/lib/i18n";
+import HtmlLang from "./HtmlLang";
 import LocalePicker from "./LocalePicker";
 import Markdown from "./Markdown";
 import styles from "./DocScreen.module.css";
@@ -25,45 +27,50 @@ export default function DocScreen({
   archived?: boolean;
 }) {
   const base = `/t/${app.slug}/${doc.slug}`;
+  // 문서의 언어가 화면의 언어를 정한다.
+  const t = strings(locale);
+  const kind = t.kinds[doc.kind] ?? t.kinds.custom;
 
   return (
-    <article className={styles.page}>
+    <article className={styles.page} lang={locale}>
+      <HtmlLang locale={locale} />
+
       <nav className={styles.crumb}>
         <Link href={`/t/${app.slug}/`}>{app.name}</Link>
       </nav>
 
       <header className={styles.head}>
-        <p className={styles.kind}>{kindLabel(doc.kind)}</p>
+        <p className={styles.kind}>{kind}</p>
         <div className={styles.headRow}>
           <h1 className={styles.title}>{version.title || doc.name}</h1>
-          <LocalePicker locales={locales} current={locale} base={base} />
+          <LocalePicker locales={locales} current={locale} base={base} label={t.pickLanguage} />
         </div>
         <dl className={styles.facts}>
           <div className={styles.fact}>
-            <dt>시행일</dt>
+            <dt>{t.effectiveOn}</dt>
             <dd>{formatDate(version.effectiveAt, locale)}</dd>
           </div>
           <div className={styles.fact}>
-            <dt>판</dt>
-            <dd>제 {version.version} 판</dd>
+            <dt>{t.edition}</dt>
+            <dd>{t.editionNo(version.version)}</dd>
           </div>
           <div className={styles.fact}>
-            <dt>언어</dt>
-            <dd>{localeLabel(locale)}</dd>
+            <dt>{t.language}</dt>
+            <dd>{new Intl.DisplayNames([locale], { type: "language" }).of(locale) ?? locale}</dd>
           </div>
         </dl>
       </header>
 
       {archived ? (
         <p className={`${styles.notice} ${styles.noticePast}`}>
-          지난 판본입니다 — 지금 유효한 것은{" "}
-          <Link href={`${base}/${locale}/`}>현행 {kindLabel(doc.kind)}</Link>입니다.
+          {t.archivedNotice}{" "}
+          <Link href={`${base}/${locale}/`}>{t.currentOne(kind)}</Link>
         </p>
       ) : null}
 
       {!archived && upcoming ? (
         <p className={styles.notice}>
-          {formatDate(upcoming.effectiveAt, locale)}부터 제 {upcoming.version} 판이 시행됩니다.
+          {t.upcoming(formatDate(upcoming.effectiveAt, locale), upcoming.version)}
         </p>
       ) : null}
 
@@ -75,14 +82,14 @@ export default function DocScreen({
 
       {!archived && past.length > 0 ? (
         <section className={styles.history}>
-          <h2 className={styles.historyTitle}>지난 판본</h2>
+          <h2 className={styles.historyTitle}>{t.pastVersions}</h2>
           <ul className={styles.historyList}>
             {past.map((v) => (
               <li key={v.version}>
                 <Link href={`${base}/${locale}/v/${v.version}/`} className={styles.historyRow}>
-                  <span>제 {v.version} 판</span>
+                  <span>{t.editionNo(v.version)}</span>
                   <span className={styles.historyWhen}>
-                    {formatDate(v.effectiveAt, locale)} 시행
+                    {t.effectiveSince(formatDate(v.effectiveAt, locale))}
                   </span>
                 </Link>
               </li>

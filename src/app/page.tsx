@@ -1,10 +1,20 @@
 import Link from "next/link";
 import { listApps, listDocs, publishedLocales, readSite } from "@/lib/content.mjs";
-import { localeLabel } from "@/lib/labels";
+import { strings } from "@/lib/i18n";
 import styles from "./home.module.css";
+
+/** 언어 이름은 그 언어 자신의 말로. */
+function endonym(code: string) {
+  try {
+    return new Intl.DisplayNames([code], { type: "language" }).of(code) ?? code;
+  } catch {
+    return code;
+  }
+}
 
 export default function Home() {
   const site = readSite();
+  const t = strings(site.defaultLocale);
   const apps = listApps().map((app) => {
     const docs = listDocs(app.slug);
     const locales = new Set<string>();
@@ -15,7 +25,7 @@ export default function Home() {
   return (
     <>
       <div className={styles.intro}>
-        <p className={styles.eyebrow}>✦ 약관 보관소</p>
+        <p className={styles.eyebrow}>✦ {t.archive}</p>
         <h1 className={styles.title}>{site.name}</h1>
         <p className={styles.lead}>
           {site.tagline || "여러 앱의 약관을 한 곳에 두고, 어느 앱에서든 같은 주소로 연다."}
@@ -43,10 +53,10 @@ export default function Home() {
                   <span className={styles.cardDesc}>{app.description}</span>
                 ) : null}
                 <span className={styles.cardMeta}>
-                  <span className={styles.count}>문서 {app.docs.length}</span>
+                  <span className={styles.count}>{t.docCount(app.docs.length)}</span>
                   {app.locales.map((l) => (
-                    <span key={l} className={styles.chip}>
-                      {localeLabel(l)}
+                    <span key={l} className={styles.chip} lang={l}>
+                      {endonym(l)}
                     </span>
                   ))}
                 </span>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { readSite } from "@/lib/content.mjs";
+import { strings } from "@/lib/i18n";
 import ThemeToggle from "@/components/ThemeToggle";
 import Link from "next/link";
 import "./globals.css";
@@ -16,8 +17,10 @@ export const metadata: Metadata = {
 const themeBoot = `(function(){try{var t=localStorage.getItem("polaris-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const t = strings(site.defaultLocale);
+
   return (
-    <html lang="ko" suppressHydrationWarning>
+    <html lang={site.defaultLocale} suppressHydrationWarning>
       <head>
         <link
           rel="stylesheet"
@@ -32,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className={styles.star} aria-hidden="true" />
               <span className={styles.brandName}>{site.name}</span>
             </Link>
-            <ThemeToggle />
+            <ThemeToggle toLight={t.toLight} toDark={t.toDark} />
           </div>
         </header>
         <main className={styles.main}>{children}</main>

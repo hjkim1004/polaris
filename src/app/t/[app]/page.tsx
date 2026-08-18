@@ -7,8 +7,18 @@ import {
   publishedLocales,
   readApp,
 } from "@/lib/content.mjs";
-import { formatDate, kindLabel, localeLabel } from "@/lib/labels";
+import { formatDate } from "@/lib/labels";
+import { strings } from "@/lib/i18n";
+import HtmlLang from "@/components/HtmlLang";
 import styles from "./app.module.css";
+
+function endonym(code: string) {
+  try {
+    return new Intl.DisplayNames([code], { type: "language" }).of(code) ?? code;
+  } catch {
+    return code;
+  }
+}
 
 export function generateStaticParams() {
   return listApps().map((app) => ({ app: app.slug }));
@@ -32,11 +42,14 @@ export default async function AppPage({ params }: { params: Promise<{ app: strin
     return { ...doc, locales, primary };
   });
   const live = docs.filter((d) => d.primary);
+  // 앱의 문서 목록은 그 앱의 기본 언어로 말한다.
+  const t = strings(meta.defaultLocale);
 
   return (
     <>
+      <HtmlLang locale={meta.defaultLocale} />
       <nav className={styles.crumb}>
-        <Link href="/">모든 앱</Link>
+        <Link href="/">{t.allApps}</Link>
       </nav>
 
       <div className={styles.intro}>
@@ -45,25 +58,25 @@ export default async function AppPage({ params }: { params: Promise<{ app: strin
       </div>
 
       {live.length === 0 ? (
-        <p className={styles.blank}>아직 펴낸 문서가 없습니다.</p>
+        <p className={styles.blank}>{t.nothingPublished}</p>
       ) : (
         <ul className={styles.list}>
           {live.map((doc) => (
             <li key={doc.slug}>
               <Link href={`/t/${app}/${doc.slug}/`} className={styles.row}>
                 <span className={styles.rowMain}>
-                  <span className={styles.rowKind}>{kindLabel(doc.kind)}</span>
+                  <span className={styles.rowKind}>{t.kinds[doc.kind] ?? t.kinds.custom}</span>
                   <span className={styles.rowName}>{doc.primary?.title || doc.name}</span>
                   <span className={styles.rowWhen}>
                     {doc.primary?.effectiveAt
-                      ? `${formatDate(doc.primary.effectiveAt)} 시행`
+                      ? t.effectiveSince(formatDate(doc.primary.effectiveAt, meta.defaultLocale))
                       : ""}
                   </span>
                 </span>
                 <span className={styles.rowLocales}>
                   {doc.locales.map((l) => (
-                    <span key={l} className={styles.chip}>
-                      {localeLabel(l)}
+                    <span key={l} className={styles.chip} lang={l}>
+                      {endonym(l)}
                     </span>
                   ))}
                 </span>

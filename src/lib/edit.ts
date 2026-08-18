@@ -184,6 +184,7 @@ export async function saveSite(form: FormData) {
     tagline: text(form, "tagline"),
     domain: text(form, "domain").replace(/^https?:\/\//, "").replace(/\/+$/, ""),
     contactEmail: text(form, "contactEmail"),
+    defaultLocale: text(form, "defaultLocale") || "ko",
   });
   refresh();
   redirect("/admin/?saved=1");

@@ -121,10 +121,23 @@ export default async function AdminHome({
             <span className={styles.label}>한 줄 소개</span>
             <input className={styles.input} name="tagline" defaultValue={site.tagline} />
           </label>
-          <label className={styles.field}>
-            <span className={styles.label}>문의 메일</span>
-            <input className={styles.input} name="contactEmail" defaultValue={site.contactEmail} />
-          </label>
+          <div className={styles.fieldsTwo}>
+            <label className={styles.field}>
+              <span className={styles.label}>문의 메일</span>
+              <input className={styles.input} name="contactEmail" defaultValue={site.contactEmail} />
+            </label>
+            <div className={styles.field}>
+              <span className={styles.label}>화면 기본 언어</span>
+              <Choice
+                name="defaultLocale"
+                defaultValue={site.defaultLocale}
+                options={LOCALES.map((l) => ({ value: l.value, label: l.label }))}
+              />
+              <span className={styles.hint}>
+                홈과 앱 목록처럼 문서가 없는 화면이 어느 말로 설지 정합니다.
+              </span>
+            </div>
+          </div>
           <div className={styles.actions}>
             <button type="submit" className={styles.save}>
               저장

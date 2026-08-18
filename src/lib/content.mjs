@@ -70,12 +70,15 @@ function dirs(where) {
 }
 
 export function readSite() {
-  return readJson(path.join(CONTENT_DIR, "site.json"), {
-    name: "Polaris",
-    tagline: "",
-    domain: "",
-    contactEmail: "",
-  });
+  const site = readJson(path.join(CONTENT_DIR, "site.json"), {});
+  return {
+    name: site.name || "Polaris",
+    tagline: site.tagline || "",
+    domain: site.domain || "",
+    contactEmail: site.contactEmail || "",
+    // 목록 화면(홈·앱)에는 문서가 없으니 언어를 정해 줄 것도 없다. 사이트가 정한다.
+    defaultLocale: site.defaultLocale || "ko",
+  };
 }
 
 export function listApps() {
