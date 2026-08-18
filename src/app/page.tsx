@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       <div className={styles.intro}>
-        <p className={styles.eyebrow}>약관 보관소</p>
+        <p className={styles.eyebrow}>✦ 약관 보관소</p>
         <h1 className={styles.title}>{site.name}</h1>
         <p className={styles.lead}>
           {site.tagline || "여러 앱의 약관을 한 곳에 두고, 어느 앱에서든 같은 주소로 연다."}
@@ -34,6 +34,10 @@ export default function Home() {
           {apps.map((app) => (
             <li key={app.slug}>
               <Link href={`/t/${app.slug}/`} className={styles.card}>
+                <span className={styles.monogram} aria-hidden="true">
+                  {app.name.trim().charAt(0)}
+                </span>
+                <span className={styles.arrow} aria-hidden="true">↗</span>
                 <span className={styles.cardName}>{app.name}</span>
                 {app.description ? (
                   <span className={styles.cardDesc}>{app.description}</span>

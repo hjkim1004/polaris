@@ -1,4 +1,4 @@
-.page { max-width: 44rem; }
+.page { max-width: 44rem; margin: 0 auto; }
 
 .crumb { font-size: 0.8125rem; color: var(--text-faint); margin-bottom: var(--s2); }
 .crumb a { color: var(--text-sub); }
@@ -6,12 +6,18 @@
 .head { margin-bottom: var(--s3); }
 
 .kind {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s0);
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: var(--s1);
+  background: var(--primary-soft);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  margin-bottom: var(--s1h);
 }
 
 .headRow {
@@ -32,14 +38,25 @@
 
 /* 값마다 제 이름을 단다 — 가운뎃점으로 이어 붙이면 어디서 끊을지 알 수 없다. */
 .facts {
-  margin: var(--s2) 0 0;
+  margin: var(--s2h) 0 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s1) var(--s3);
+  gap: var(--s1) 0;
 }
 
-.fact { display: flex; flex-direction: column; gap: 0.0625rem; }
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.0625rem;
+  padding-right: var(--s3);
+}
+
+/* 사실과 사실 사이는 헤어라인 하나 — 상자를 두르지 않고도 각자 선다. */
+.fact + .fact {
+  padding-left: var(--s3);
+  border-left: 1px solid var(--divider);
+}
 .fact dt {
   font-size: 0.6875rem;
   font-weight: 600;
@@ -98,7 +115,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--s0);
+  gap: var(--s1);
 }
 
 .historyRow {
@@ -106,14 +123,23 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--s2);
-  padding: var(--s1) var(--s1h);
-  border-radius: var(--radius-sm);
+  padding: var(--s1h) var(--s2);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
   color: var(--text-sub);
   font-size: 0.875rem;
-  transition: background var(--motion-fast) var(--ease-entering);
+  transition: transform var(--motion-fast) var(--ease-entering),
+    box-shadow var(--motion-fast) var(--ease-entering),
+    color var(--motion-fast) var(--ease-entering);
 }
 
-.historyRow:hover { text-decoration: none; background: var(--sunken); color: var(--text); }
+.historyRow:hover {
+  text-decoration: none;
+  color: var(--text);
+  transform: translateY(-0.0625rem);
+  box-shadow: var(--shadow-lift);
+}
 
 .historyWhen { color: var(--text-faint); font-size: 0.8125rem; }
 

@@ -1,25 +1,36 @@
-.intro { max-width: 40rem; margin-bottom: var(--s5); }
+.intro {
+  max-width: 42rem;
+  margin: 0 auto var(--s5);
+  text-align: center;
+}
 
 .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
   font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: var(--s1);
+  background: var(--primary-soft);
+  border-radius: 999px;
+  padding: 0.3125rem 0.875rem;
+  margin-bottom: var(--s2);
 }
 
 .title {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
 }
 
 .lead {
   margin-top: var(--s1h);
   color: var(--text-sub);
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .grid {
@@ -32,6 +43,7 @@
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--s1);
@@ -47,8 +59,23 @@
 
 .card:hover {
   text-decoration: none;
-  transform: translateY(-0.125rem);
+  transform: translateY(-0.1875rem);
   box-shadow: var(--shadow-lift);
+}
+
+/* 앱의 첫 글자가 문장(紋章)이 된다 — 아이콘이 없어도 얼굴이 생긴다. */
+.monogram {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--primary-soft);
+  color: var(--accent);
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: var(--s0);
 }
 
 .cardName { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; }
@@ -61,7 +88,7 @@
 
 .cardMeta {
   margin-top: auto;
-  padding-top: var(--s1h);
+  padding-top: var(--s2);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -76,8 +103,20 @@
   color: var(--text-sub);
   background: var(--sunken);
   border-radius: 999px;
-  padding: 0.125rem 0.5rem;
+  padding: 0.1875rem 0.5625rem;
 }
+
+/* 카드의 오른쪽 위에서 조용히 기다리는 화살표 — 눌러도 된다는 속삭임. */
+.arrow {
+  position: absolute;
+  top: var(--s2h);
+  right: var(--s2h);
+  color: var(--text-faint);
+  font-size: 1rem;
+  transition: color var(--motion-fast) var(--ease-entering),
+    transform var(--motion-fast) var(--ease-entering);
+}
+.card:hover .arrow { color: var(--accent); transform: translate(0.125rem, -0.125rem); }
 
 .blank {
   text-align: center;
@@ -97,7 +136,8 @@
 
 @media (min-width: 40em) {
   .grid { grid-template-columns: repeat(2, 1fr); }
-  .title { font-size: 2rem; }
+  .title { font-size: 2.5rem; }
+  .intro { margin-bottom: var(--s6); }
 }
 
 @media (min-width: 64em) {

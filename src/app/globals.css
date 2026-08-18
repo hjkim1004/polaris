@@ -116,6 +116,11 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--bg);
+  /* 오로라의 공기 — 화면 위쪽에 남보라 한 숨. 강조가 아니라 바탕이므로 아주 옅다. */
+  background-image:
+    radial-gradient(42rem 26rem at 18% -8%, color-mix(in srgb, var(--primary) 7%, transparent), transparent 70%),
+    radial-gradient(36rem 22rem at 92% -4%, color-mix(in srgb, var(--primary-lit) 5%, transparent), transparent 70%);
+  background-repeat: no-repeat;
   color: var(--text);
   font-family: Pretendard, Pretendard Variable, -apple-system, BlinkMacSystemFont,
     "Apple SD Gothic Neo", system-ui, sans-serif;

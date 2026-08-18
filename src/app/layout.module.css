@@ -46,6 +46,8 @@
 .footer {
   border-top: 1px solid var(--divider);
   margin-top: var(--s6);
+  background:
+    radial-gradient(30rem 12rem at 50% 130%, color-mix(in srgb, var(--primary) 6%, transparent), transparent 70%);
 }
 
 .footerInner {
