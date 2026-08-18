@@ -1,6 +1,6 @@
 # Polaris
 
-**https://polaris.twinklelabs.co.kr**
+**https://polaris.twinklelabs.kr**
 
 여러 앱의 약관을 한 곳에서 기르고, **공개 페이지**와 **정적 JSON API** 두 갈래로 뿌린다.
 서버도 데이터베이스도 없다 — 내용은 이 저장소의 파일이고, 이력은 git이 기억한다.
