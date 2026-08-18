@@ -1,0 +1,122 @@
+.page { max-width: 44rem; }
+
+.crumb { font-size: 0.8125rem; color: var(--text-faint); margin-bottom: var(--s2); }
+.crumb a { color: var(--text-sub); }
+
+.head { margin-bottom: var(--s3); }
+
+.kind {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s1);
+}
+
+.headRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s2);
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 1.625rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+/* 값마다 제 이름을 단다 — 가운뎃점으로 이어 붙이면 어디서 끊을지 알 수 없다. */
+.facts {
+  margin: var(--s2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1) var(--s3);
+}
+
+.fact { display: flex; flex-direction: column; gap: 0.0625rem; }
+.fact dt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-faint);
+}
+.fact dd {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.notice {
+  margin-bottom: var(--s3);
+  padding: var(--s1h) var(--s2);
+  border-radius: var(--radius-md);
+  background: var(--primary-soft);
+  color: var(--accent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.notice a { color: inherit; text-decoration: underline; }
+
+.noticePast {
+  background: color-mix(in srgb, var(--warn) 14%, transparent);
+  color: var(--warn);
+}
+
+.summary {
+  margin-bottom: var(--s3);
+  color: var(--text-sub);
+  font-size: 0.9375rem;
+  line-height: 1.75;
+}
+
+.body {
+  padding-top: var(--s3);
+  border-top: 1px solid var(--divider);
+}
+
+.history { margin-top: var(--s5); }
+
+.historyTitle {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+  margin-bottom: var(--s1h);
+}
+
+.historyList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s0);
+}
+
+.historyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  padding: var(--s1) var(--s1h);
+  border-radius: var(--radius-sm);
+  color: var(--text-sub);
+  font-size: 0.875rem;
+  transition: background var(--motion-fast) var(--ease-entering);
+}
+
+.historyRow:hover { text-decoration: none; background: var(--sunken); color: var(--text); }
+
+.historyWhen { color: var(--text-faint); font-size: 0.8125rem; }
+
+@media (min-width: 40em) {
+  .title { font-size: 1.875rem; }
+}

@@ -1,0 +1,32 @@
+.wrap {
+  max-width: 28rem;
+  margin: 0 auto;
+  padding: var(--s6) 0;
+  text-align: center;
+}
+
+.code {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: var(--s1);
+}
+
+.title { font-size: 1.375rem; font-weight: 800; letter-spacing: -0.02em; }
+
+.body { margin-top: var(--s1h); color: var(--text-sub); font-size: 0.9375rem; }
+
+/* 다음 한 걸음을 가리키는 면이라 그라데이션이 여기 온다. */
+.cta {
+  display: inline-block;
+  margin-top: var(--s3);
+  padding: 0.625rem 1.25rem;
+  border-radius: 999px;
+  background: var(--brand-gradient);
+  color: var(--primary-ink);
+  font-size: 0.875rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-brand);
+}
+.cta:hover { text-decoration: none; }

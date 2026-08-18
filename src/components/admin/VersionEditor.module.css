@@ -1,0 +1,104 @@
+.form { display: flex; flex-direction: column; gap: var(--s2); }
+
+.meta { display: grid; gap: var(--s2); grid-template-columns: 1fr; }
+
+.field { display: flex; flex-direction: column; gap: var(--s0); min-width: 0; }
+
+.label { font-size: 0.75rem; font-weight: 600; color: var(--text-sub); }
+
+.input {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  background: var(--sunken);
+  border: 0.0625rem solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--text);
+  font-size: 0.875rem;
+}
+.input:focus { border-color: var(--accent); outline: none; box-shadow: var(--focus-ring); }
+
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; }
+
+.paneBar { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); }
+
+.segment {
+  display: inline-flex;
+  padding: 0.1875rem;
+  background: var(--sunken);
+  border-radius: 999px;
+}
+
+.segItem {
+  padding: 0.3125rem 0.875rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--text-sub);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-entering),
+    color var(--motion-fast) var(--ease-entering);
+}
+.segOn { background: var(--surface); color: var(--accent); box-shadow: var(--shadow-card); }
+
+.count { font-size: 0.75rem; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+
+.panes { display: grid; gap: var(--s2); grid-template-columns: 1fr; }
+
+.textarea {
+  width: 100%;
+  min-height: 26rem;
+  padding: var(--s2);
+  background: var(--sunken);
+  border: 0.0625rem solid transparent;
+  border-radius: var(--radius-lg);
+  color: var(--text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.8;
+  resize: vertical;
+}
+.textarea:focus { border-color: var(--accent); outline: none; box-shadow: var(--focus-ring); }
+
+.preview {
+  min-height: 26rem;
+  padding: var(--s2h);
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow-x: auto;
+}
+
+/* 좁은 화면에서는 한 번에 하나만 — 둘을 나란히 두면 둘 다 못 읽는다. */
+.panes[data-pane="write"] .preview { display: none; }
+.panes[data-pane="read"] .textarea { display: none; }
+
+.actions { display: flex; align-items: center; gap: var(--s1h); }
+
+.save {
+  padding: 0.625rem 1.5rem;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--primary-ink);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter var(--motion-fast) var(--ease-entering);
+}
+.save:hover { filter: brightness(1.06); }
+
+.saved { font-size: 0.75rem; font-weight: 600; color: var(--success); }
+
+@media (min-width: 40em) {
+  .meta { grid-template-columns: 2fr 1.4fr 1fr; align-items: end; }
+}
+
+/* 넓으면 쓰기와 미리보기를 나란히 둔다 — 고르개는 그때 숨는다. */
+@media (min-width: 64em) {
+  .panes { grid-template-columns: 1fr 1fr; }
+  .panes[data-pane="write"] .preview,
+  .panes[data-pane="read"] .textarea { display: block; }
+  .segment { display: none; }
+}
