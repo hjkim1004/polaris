@@ -138,6 +138,19 @@ export default async function AdminHome({
               </span>
             </div>
           </div>
+          <label className={styles.field}>
+            <span className={styles.label}>시간대</span>
+            <input
+              className={`${styles.input} ${styles.mono}`}
+              name="timezone"
+              defaultValue={site.timezone}
+              placeholder="Asia/Seoul"
+            />
+            <span className={styles.hint}>
+              시행일을 어느 시간대의 «오늘»로 셀지 정합니다. 매일 이 시간대의 0시 5분에
+              배포가 스스로 한 번 돕니다.
+            </span>
+          </label>
           <div className={styles.actions}>
             <button type="submit" className={styles.save}>
               저장

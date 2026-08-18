@@ -53,6 +53,7 @@ export async function saveApp(form: FormData) {
     name: text(form, "name") || slug,
     description: text(form, "description"),
     defaultLocale: text(form, "defaultLocale") || "ko",
+    timezone: text(form, "timezone") || "Asia/Seoul",
     homepage: text(form, "homepage"),
   });
 
@@ -185,6 +186,7 @@ export async function saveSite(form: FormData) {
     domain: text(form, "domain").replace(/^https?:\/\//, "").replace(/\/+$/, ""),
     contactEmail: text(form, "contactEmail"),
     defaultLocale: text(form, "defaultLocale") || "ko",
+    timezone: text(form, "timezone") || "Asia/Seoul",
   });
   refresh();
   redirect("/admin/?saved=1");

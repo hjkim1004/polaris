@@ -4,6 +4,7 @@ export type Site = {
   domain: string;
   contactEmail: string;
   defaultLocale: string;
+  timezone: string;
 };
 export type AppMeta = {
   slug: string;

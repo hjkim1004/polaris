@@ -5,6 +5,11 @@ name: deploy
 on:
   push:
     branches: [main]
+  # 시행일이 오면 스스로 현행이 되어야 한다 — 그런데 정적 사이트는 아무도 굽지 않으면
+  # 어제의 판본을 계속 내보낸다. 그래서 한국 시각 0시 5분에 매일 한 번 다시 굽는다.
+  # (GitHub의 cron 은 UTC다. 15:05 UTC = 00:05 KST)
+  schedule:
+    - cron: "5 15 * * *"
   workflow_dispatch:
 
 permissions:

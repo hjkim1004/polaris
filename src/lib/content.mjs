@@ -78,6 +78,8 @@ export function readSite() {
     contactEmail: site.contactEmail || "",
     // 목록 화면(홈·앱)에는 문서가 없으니 언어를 정해 줄 것도 없다. 사이트가 정한다.
     defaultLocale: site.defaultLocale || "ko",
+    // 시행일을 어느 시간대의 날짜로 셀 것인가.
+    timezone: site.timezone || "Asia/Seoul",
   };
 }
 
@@ -164,7 +166,21 @@ export function nextVersionNo(appSlug, docSlug, locale) {
 
 /* ── 무엇을 내보낼 것인가 ───────────────────────────────────── */
 
-const today = () => new Date().toISOString().slice(0, 10);
+/**
+ * 오늘. **운영자의 시간대**로 센다.
+ *
+ * UTC로 세면 «9월 1일 시행»이 한국에서 그날 아침 9시에야 바뀐다 — 시행일은
+ * 약속한 날의 0시부터라야 약속이다. 시간대는 site.json의 `timezone`이 정한다.
+ */
+function today() {
+  const zone = readSite().timezone;
+  try {
+    // en-CA 는 YYYY-MM-DD 로 적는다 — 우리 파일의 날짜 형식과 같다.
+    return new Intl.DateTimeFormat("en-CA", { timeZone: zone }).format(new Date());
+  } catch {
+    return new Date().toISOString().slice(0, 10);
+  }
+}
 
 /** 지금 유효한 판본 — 펴냈고, 발효일이 지났고, 그중 가장 최근 것. */
 export function currentVersion(appSlug, docSlug, locale, now = today()) {

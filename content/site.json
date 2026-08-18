@@ -3,5 +3,6 @@
   "tagline": "우리가 만든 앱들의 약관은 여기 한 곳에 있습니다.",
   "domain": "polaris.twinklelabs.kr",
   "contactEmail": "twinkle.ai.labs@gmail.com",
-  "defaultLocale": "ko"
+  "defaultLocale": "ko",
+  "timezone": "Asia/Seoul"
 }
