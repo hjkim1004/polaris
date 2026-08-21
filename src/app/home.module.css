@@ -1,12 +1,6 @@
-/* 소개 화면.
-   카드는 그늘 하나로 서고(테두리 없이), 그라데이션은 «다음 한 걸음» 한 자리에만 쓴다.
-   값은 전부 :root 의 토큰에서 온다 — 여기서 새 숫자를 짓지 않는다. */
-
-/* ── 히어로 ─────────────────────────────────────────────────── */
-
-.hero {
-  max-width: 44rem;
-  margin: 0 auto var(--s6);
+.intro {
+  max-width: 42rem;
+  margin: 0 auto var(--s5);
   text-align: center;
 }
 
@@ -25,116 +19,21 @@
   margin-bottom: var(--s2);
 }
 
-.heroTitle {
-  font-size: 2.125rem;
+.title {
+  font-size: 2rem;
   font-weight: 800;
   letter-spacing: -0.035em;
-  line-height: 1.18;
+  line-height: 1.2;
 }
 
-.heroLead {
-  margin-top: var(--s2);
+.lead {
+  margin-top: var(--s1h);
   color: var(--text-sub);
   font-size: 1rem;
-  line-height: 1.8;
+  line-height: 1.75;
 }
 
-.actions {
-  margin-top: var(--s3);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s1h);
-  justify-content: center;
-}
-
-.cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--s1h) var(--s3);
-  border-radius: var(--radius-md);
-  background: var(--brand-gradient);
-  color: var(--primary-ink);
-  font-weight: 700;
-  box-shadow: var(--shadow-brand);
-  transition: transform var(--motion-fast) var(--ease-entering),
-    box-shadow var(--motion-fast) var(--ease-entering);
-}
-.cta:hover {
-  text-decoration: none;
-  transform: translateY(-0.0625rem);
-  box-shadow: var(--shadow-lift);
-}
-
-.ghost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--s1h) var(--s3);
-  border-radius: var(--radius-md);
-  background: var(--sunken);
-  color: var(--text);
-  font-weight: 600;
-  transition: background var(--motion-fast) var(--ease-entering);
-}
-.ghost:hover { text-decoration: none; background: var(--divider); }
-
-/* ── 구획 ───────────────────────────────────────────────────── */
-
-.section {
-  margin-top: var(--s6);
-  /* 머리줄이 붙박이 머리띠 밑에 숨지 않도록 */
-  scroll-margin-top: 4.5rem;
-}
-
-.kicker {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: var(--s1);
-}
-
-.sectionTitle {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  margin-bottom: var(--s2h);
-}
-
-.body {
-  color: var(--text-sub);
-  font-size: 0.9375rem;
-  line-height: 1.85;
-}
-
-.prose {
-  max-width: 42rem;
-  display: flex;
-  flex-direction: column;
-  gap: var(--s1h);
-}
-
-.inlineLink {
-  display: inline-block;
-  margin-top: var(--s1h);
-  color: var(--accent);
-  font-size: 0.875rem;
-  font-weight: 700;
-}
-
-.quietLink {
-  color: var(--text-sub);
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-/* ── 이름 ───────────────────────────────────────────────────── */
-
-.nameGrid,
-.appGrid,
-.howGrid {
+.grid {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -143,143 +42,104 @@
   grid-template-columns: 1fr;
 }
 
-/* 앱은 몇 개가 될지 모른다 — 칸을 세지 않고 자리에 맡긴다.
-   auto-fit 은 빈 칸을 접으므로, 둘일 때 셋째 자리가 구멍으로 남지 않는다. */
-.appGrid { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
-
-.nameCard,
-.appCard {
+.card {
+  position: relative;
   display: flex;
   flex-direction: column;
+  gap: var(--s1);
   height: 100%;
-  padding: var(--s3);
+  padding: var(--s2h);
   background: var(--surface);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
+  color: var(--text);
+  transition: transform var(--motion-base) var(--ease-entering),
+    box-shadow var(--motion-base) var(--ease-entering);
 }
 
-.word {
-  font-size: 1.375rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--accent);
+.card:hover {
+  text-decoration: none;
+  transform: translateY(-0.1875rem);
+  box-shadow: var(--shadow-lift);
 }
 
-.reading {
-  margin: var(--s0) 0 var(--s1h);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--text-faint);
-}
-
-/* ── 앱 ─────────────────────────────────────────────────────── */
-
-.appIcon {
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: var(--radius-md);
-  margin-bottom: var(--s2);
-}
-
+/* 앱의 첫 글자가 문장(紋章)이 된다 — 아이콘이 없어도 얼굴이 생긴다. */
 .monogram {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-md);
   background: var(--primary-soft);
   color: var(--accent);
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin-bottom: var(--s2);
-}
-
-.appName {
   font-size: 1.25rem;
   font-weight: 800;
-  letter-spacing: -0.025em;
+  margin-bottom: var(--s0);
 }
 
-.appTagline {
-  margin: var(--s0) 0 var(--s1h);
-  color: var(--text-faint);
-  font-size: 0.875rem;
-  font-weight: 600;
-}
+.cardName { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; }
 
-.appMeta { margin-top: var(--s2); }
-
-.badge {
-  display: inline-block;
-  font-size: 0.6875rem;
-  font-weight: 700;
+.cardDesc {
   color: var(--text-sub);
-  background: var(--sunken);
-  border-radius: 999px;
-  padding: 0.1875rem 0.625rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
 }
 
-.appLinks {
+.cardMeta {
   margin-top: auto;
   padding-top: var(--s2);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--s1) var(--s2);
+  gap: var(--s0) var(--s1);
 }
-.appLinks .inlineLink { margin-top: 0; }
 
-/* 아직 오지 않은 것은 떠 있지 않다 — 눌 자리가 없으니 가라앉혀 둔다. */
-.nextCard {
+.count { font-size: 0.75rem; color: var(--text-faint); font-weight: 600; }
+
+.chip {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-sub);
   background: var(--sunken);
-  box-shadow: none;
-  justify-content: center;
-}
-.nextCard .appName { color: var(--text-faint); }
-
-/* ── 만드는 방식 ────────────────────────────────────────────── */
-
-.howItem {
-  padding-top: var(--s2);
-  border-top: 1px solid var(--divider);
+  border-radius: 999px;
+  padding: 0.1875rem 0.5625rem;
 }
 
-.howTitle {
+/* 카드의 오른쪽 위에서 조용히 기다리는 화살표 — 눌러도 된다는 속삭임. */
+.arrow {
+  position: absolute;
+  top: var(--s2h);
+  right: var(--s2h);
+  color: var(--text-faint);
   font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: var(--s1);
+  transition: color var(--motion-fast) var(--ease-entering),
+    transform var(--motion-fast) var(--ease-entering);
+}
+.card:hover .arrow { color: var(--accent); transform: translate(0.125rem, -0.125rem); }
+
+.blank {
+  text-align: center;
+  padding: var(--s6) var(--s2);
+  color: var(--text-sub);
 }
 
-/* ── 문의 ───────────────────────────────────────────────────── */
-
-.mail {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--s1h) var(--s3);
-  border-radius: var(--radius-md);
-  background: var(--primary);
-  color: var(--primary-ink);
-  font-weight: 700;
-  transition: background var(--motion-fast) var(--ease-entering);
+.blankTitle { font-weight: 700; color: var(--text); margin-bottom: var(--s1); }
+.blankBody { font-size: 0.875rem; }
+.blankBody code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8125rem;
+  background: var(--sunken);
+  border-radius: var(--radius-sm);
+  padding: 0.125rem 0.375rem;
 }
-.mail:hover { text-decoration: none; background: var(--primary-lit); }
-
-.contactActions { justify-content: flex-start; }
-
-/* ── 넓어지면 ───────────────────────────────────────────────── */
 
 @media (min-width: 40em) {
-  .heroTitle { font-size: 3rem; }
-  .heroLead { font-size: 1.0625rem; }
-  .sectionTitle { font-size: 1.75rem; }
-  .nameGrid { grid-template-columns: repeat(2, 1fr); }
-  .howGrid { grid-template-columns: repeat(2, 1fr); gap: var(--s2) var(--s3); }
-  .section { margin-top: var(--s7); }
-  .hero { margin-bottom: var(--s7); }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .title { font-size: 2.5rem; }
+  .intro { margin-bottom: var(--s6); }
 }
 
 @media (min-width: 64em) {
-  .howGrid { grid-template-columns: repeat(4, 1fr); }
+  .grid { grid-template-columns: repeat(3, 1fr); }
 }

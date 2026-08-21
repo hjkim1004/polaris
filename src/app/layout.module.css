@@ -37,19 +37,6 @@
 
 .brandName { font-size: 1rem; }
 
-.nav {
-  display: flex;
-  align-items: center;
-  gap: var(--s1h);
-}
-
-.navLink {
-  color: var(--text-sub);
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-.navLink:hover { color: var(--text); text-decoration: none; }
-
 .main {
   max-width: 64rem;
   margin: 0 auto;
@@ -77,14 +64,6 @@
 }
 
 .footerLine { margin: 0; }
-
-.footerLinks {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--s1) var(--s2);
-}
-
 .footerLink { color: var(--text-sub); }
 
 @media (min-width: 48em) {

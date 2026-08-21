@@ -10,7 +10,7 @@ export default function NotFound() {
       <p className={styles.code}>404</p>
       <h1 className={styles.title}>{t.notFoundTitle}</h1>
       <p className={styles.body}>{t.notFoundBody}</p>
-      <Link href="/t/" className={styles.cta}>
+      <Link href="/" className={styles.cta}>
         {t.notFoundCta}
       </Link>
     </div>

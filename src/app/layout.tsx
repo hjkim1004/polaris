@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { readSite } from "@/lib/content.mjs";
 import { strings } from "@/lib/i18n";
 import ThemeToggle from "@/components/ThemeToggle";
-import { BLOG_URL, CONTACT_EMAIL } from "@/lib/labs";
 import Link from "next/link";
 import "./globals.css";
 import styles from "./layout.module.css";
@@ -10,10 +9,8 @@ import styles from "./layout.module.css";
 const site = readSite();
 
 export const metadata: Metadata = {
-  metadataBase: site.domain ? new URL(`https://${site.domain}`) : undefined,
-  title: { default: site.name, template: `%s · ${site.name}` },
-  description:
-    "한 사람과 AI가 만드는 작은 유틸리티 앱들. Twinkle Labs — 난 스스로 빛난다.",
+  title: { default: `${site.name} — 약관`, template: `%s · ${site.name}` },
+  description: site.tagline || "여러 앱의 약관을 한 곳에서 기르고 뿌린다.",
 };
 
 // 화면이 그려지기 전에 테마를 정한다 — 늦으면 흰 화면이 한 번 번쩍인다.
@@ -38,34 +35,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className={styles.star} aria-hidden="true" />
               <span className={styles.brandName}>{site.name}</span>
             </Link>
-            <nav className={styles.nav}>
-              <Link href="/t/" className={styles.navLink}>
-                {t.archive}
-              </Link>
-              <ThemeToggle toLight={t.toLight} toDark={t.toDark} />
-            </nav>
+            <ThemeToggle toLight={t.toLight} toDark={t.toDark} />
           </div>
         </header>
         <main className={styles.main}>{children}</main>
         <footer className={styles.footer}>
           <div className={styles.footerInner}>
             <p className={styles.footerLine}>
-              {site.name} — 난 스스로 빛난다. 법인이 아니라 개인이 만들고 운영하는 이름입니다.
+              {site.name}
+              {site.tagline ? ` — ${site.tagline}` : ""}
             </p>
-            <nav className={styles.footerLinks}>
-              <Link href="/t/" className={styles.footerLink}>
-                {t.archive}
-              </Link>
-              <a href={BLOG_URL} className={styles.footerLink}>
-                블로그
+            {site.contactEmail ? (
+              <a href={`mailto:${site.contactEmail}`} className={styles.footerLink}>
+                {site.contactEmail}
               </a>
-              <a
-                href={`mailto:${site.contactEmail || CONTACT_EMAIL}`}
-                className={styles.footerLink}
-              >
-                {site.contactEmail || CONTACT_EMAIL}
-              </a>
-            </nav>
+            ) : null}
           </div>
         </footer>
       </body>
