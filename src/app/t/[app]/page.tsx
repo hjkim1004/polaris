@@ -49,7 +49,7 @@ export default async function AppPage({ params }: { params: Promise<{ app: strin
     <>
       <HtmlLang locale={meta.defaultLocale} />
       <nav className={styles.crumb}>
-        <Link href="/">{t.allApps}</Link>
+        <Link href="/t/">{t.allApps}</Link>
       </nav>
 
       <div className={styles.intro}>

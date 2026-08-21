@@ -1,0 +1,145 @@
+.intro {
+  max-width: 42rem;
+  margin: 0 auto var(--s5);
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--primary-soft);
+  border-radius: 999px;
+  padding: 0.3125rem 0.875rem;
+  margin-bottom: var(--s2);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.lead {
+  margin-top: var(--s1h);
+  color: var(--text-sub);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s2);
+  grid-template-columns: 1fr;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  height: 100%;
+  padding: var(--s2h);
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  color: var(--text);
+  transition: transform var(--motion-base) var(--ease-entering),
+    box-shadow var(--motion-base) var(--ease-entering);
+}
+
+.card:hover {
+  text-decoration: none;
+  transform: translateY(-0.1875rem);
+  box-shadow: var(--shadow-lift);
+}
+
+/* 앱의 첫 글자가 문장(紋章)이 된다 — 아이콘이 없어도 얼굴이 생긴다. */
+.monogram {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--primary-soft);
+  color: var(--accent);
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: var(--s0);
+}
+
+.cardName { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; }
+
+.cardDesc {
+  color: var(--text-sub);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.cardMeta {
+  margin-top: auto;
+  padding-top: var(--s2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s0) var(--s1);
+}
+
+.count { font-size: 0.75rem; color: var(--text-faint); font-weight: 600; }
+
+.chip {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-sub);
+  background: var(--sunken);
+  border-radius: 999px;
+  padding: 0.1875rem 0.5625rem;
+}
+
+/* 카드의 오른쪽 위에서 조용히 기다리는 화살표 — 눌러도 된다는 속삭임. */
+.arrow {
+  position: absolute;
+  top: var(--s2h);
+  right: var(--s2h);
+  color: var(--text-faint);
+  font-size: 1rem;
+  transition: color var(--motion-fast) var(--ease-entering),
+    transform var(--motion-fast) var(--ease-entering);
+}
+.card:hover .arrow { color: var(--accent); transform: translate(0.125rem, -0.125rem); }
+
+.blank {
+  text-align: center;
+  padding: var(--s6) var(--s2);
+  color: var(--text-sub);
+}
+
+.blankTitle { font-weight: 700; color: var(--text); margin-bottom: var(--s1); }
+.blankBody { font-size: 0.875rem; }
+.blankBody code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8125rem;
+  background: var(--sunken);
+  border-radius: var(--radius-sm);
+  padding: 0.125rem 0.375rem;
+}
+
+@media (min-width: 40em) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .title { font-size: 2.5rem; }
+  .intro { margin-bottom: var(--s6); }
+}
+
+@media (min-width: 64em) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}

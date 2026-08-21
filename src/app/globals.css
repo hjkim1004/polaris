@@ -49,6 +49,7 @@
   /* 8pt 격자 */
   --s0: 0.25rem; --s1: 0.5rem; --s1h: 0.75rem; --s2: 1rem;
   --s2h: 1.25rem; --s3: 1.5rem; --s4: 2rem; --s5: 2.5rem; --s6: 3rem;
+  --s7: 4rem;
 
   /* 움직임 — 이름은 쓰임으로 부른다. CSS의 ease-in/out은 반드시 한 번 잘못 읽힌다. */
   --motion-fast: 150ms;
@@ -59,6 +60,9 @@
 
   --brand-gradient: linear-gradient(135deg, var(--primary), var(--primary-lit));
   --focus-ring: 0 0 0 0.1875rem color-mix(in srgb, var(--accent) 30%, transparent);
+
+  --scrollbar-thumb: color-mix(in srgb, var(--text-faint) 55%, transparent);
+  --scrollbar-thumb-hover: color-mix(in srgb, var(--text-faint) 80%, transparent);
 
   color-scheme: light dark;
 }
@@ -111,7 +115,24 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  /* 같은 화면 안의 자리로 데려갈 때만 미끄러진다 — 아래 reduce 규칙이 이것도 끈다. */
+  scroll-behavior: smooth;
+  /* 스크롤바도 우리가 그린다. Firefox 는 이 두 줄만 알아듣는다. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+/* WebKit 은 제 것을 따로 본다 — 스크롤되는 곳이면 어디든. */
+::-webkit-scrollbar { width: 0.5rem; height: 0.5rem; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+::-webkit-scrollbar-corner { background: transparent; }
 
 body {
   margin: 0;
@@ -150,6 +171,7 @@ button, input, textarea, select {
 ::selection { background: var(--primary-soft); color: var(--text); }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
