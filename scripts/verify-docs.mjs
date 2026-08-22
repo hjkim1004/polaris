@@ -126,6 +126,7 @@ const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 // ── 검사 ────────────────────────────────────────────────────────────
 
 const problems = [];
+const seenLocales = new Set();
 const notes = [];
 const fail = (m) => problems.push(m);
 
@@ -138,6 +139,7 @@ for (const app of readdirSync(APPS)) {
     const canonSkel = skeleton(canon.body);
 
     for (const locale of locales) {
+      seenLocales.add(locale);
       const where = `${app}/${kind}/${locale}`;
       const { front, body } = parse(join(kindDir, locale, "1.md"));
 
@@ -226,6 +228,35 @@ for (const app of readdirSync(APPS)) {
       }
 
       /*
+       * ── 축 1 · 상대를 **격식으로** 부르는가 ──
+       *
+       * 약관은 두 사람 사이의 약속이고, 그 사람을 뭐라 부르는지가 관계를 정한다.
+       * 독일어 약관이 «du» 로 말하면 뜻은 그대로인데 **문서의 격이 달라진다** —
+       * 계약서가 아니라 쪽지가 된다. 번역기는 이걸 자주 놓치고, 뜻이 맞으니
+       * 검수에서도 안 걸린다.
+       *
+       * 낱말 경계를 양쪽 다 잡아야 한다 — 처음엔 앞만 잡아서 독일어의
+       * «**Dein**stallieren»(앱 삭제)을 «너의»로 읽고 멀쩡한 문서를 잡았다.
+       */
+      const INFORMAL = {
+        de: ["du", "dein", "deine", "deinem", "deiner", "dich", "dir"],
+        fr: ["tu", "ton", "ta", "tes", "toi"],
+        es: ["tú", "tus", "ti", "contigo"],
+        "pt-BR": ["tu", "teu", "tua", "ti"],
+        it: ["tu", "tuo", "tua", "tuoi"],
+        id: ["kamu", "kau"],
+        ja: ["だ。", "である。"],
+      };
+      for (const word of INFORMAL[locale] ?? []) {
+        // 한자·가나에는 낱말 경계가 없다 — 그쪽은 문장 끝 표시라 그대로 찾는다
+        const found = /^[a-zà-ÿ]+$/i.test(word)
+          ? new RegExp(`(^|[^\\p{L}])${word}([^\\p{L}]|$)`, "iu").test(body)
+          : body.includes(word);
+        if (found)
+          fail(`${where}: 허물없는 말 «${word}» — 약관이 상대를 부르는 격이 흔들린다`);
+      }
+
+      /*
        * ── 축 1 · 인용부호가 **그 나라의 것**인가 ──
        *
        * 낱말을 다 옮겨 놓고도 번역이 «번역처럼» 읽히는 이유의 절반은 문장부호다.
@@ -297,6 +328,21 @@ for (const app of readdirSync(APPS)) {
 }
 
 // ── 보고 ────────────────────────────────────────────────────────────
+
+/*
+ * ── 축 1 · 날짜가 그 언어의 것으로 나오는가 ──
+ *
+ * 시행일은 문서 본문에 없다 — 화면이 `Intl.DateTimeFormat(locale)` 로 그린다.
+ * 그래서 여기서 셀 것은 글자가 아니라 **로케일 코드가 Intl 이 아는 것인가**다.
+ * 모르는 코드를 주면 Intl 은 터지지 않고 **조용히 다른 언어로 그린다** —
+ * 인도네시아어 약관 위에 «August 1, 2026» 이 서 있어도 아무도 안 알려 준다.
+ * 코드를 하나 늘릴 때 오타 한 글자면 그렇게 된다.
+ */
+for (const locale of [...seenLocales].sort()) {
+  const [supported] = Intl.DateTimeFormat.supportedLocalesOf(locale);
+  if (!supported)
+    fail(`${locale}: Intl 이 모르는 로케일 코드 — 시행일이 조용히 다른 언어로 그려진다`);
+}
 
 console.log("── 축 1 · 같은 약속인가 / 축 2 · 요구 항목이 있는가 ──\n");
 if (problems.length) {
