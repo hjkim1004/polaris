@@ -28,6 +28,13 @@
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
     .header::after {
+      /* 시계를 아는 브라우저에서는 기본이 «없음»이다.
+         위의 opacity:1 은 시계를 **모르는** 쪽을 위한 대비책인데, 그대로 두면
+         구를 것이 없는 짧은 화면에서도 판이 서 버린다 — 스크롤 통에 굴릴 것이
+         없으면 시계가 멈추고(진행도 null) 애니메이션이 «효력 없음»이 되어
+         밑의 기본값이 그대로 드러나기 때문이다.
+         한 번도 구르지 않았는데 구른 척하는 판은 거짓말이다. */
+      opacity: 0;
       animation: headerSettle var(--motion-base) linear both;
       /* scroll() 만 쓰면 «가장 가까운 스크롤 통»을 찾는데, 머리띠 위로는 그런 통이
          없어서 시계가 멈춘 채로 있는다(진행도가 null 이다). 문서를 콕 집어 준다. */
@@ -75,6 +82,8 @@
 .brandName { font-size: var(--fs-16); }
 
 .main {
+  flex: 1;
+  width: 100%;
   max-width: var(--shell);
   margin: 0 auto;
   padding: var(--s5) var(--s2) var(--s6);

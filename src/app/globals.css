@@ -169,6 +169,13 @@ html {
 
 body {
   margin: 0;
+  /* 발은 화면 아래에 닿는다 — 내용이 짧으면 가운데가 남는 자리를 먹는다.
+     이걸 안 하면 글이 적은 화면에서 바닥이 허공에 떠 화면 절반이 비어 보인다.
+     dvh 를 쓴다: 모바일에서 주소창이 접히고 펴질 때 vh 는 그만큼 어긋난다. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   color: var(--text);
   font-family: Pretendard, Pretendard Variable, -apple-system, BlinkMacSystemFont,
