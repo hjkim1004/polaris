@@ -1,0 +1,44 @@
+/* 브랜드의 별 — brand/symbol-*.svg 의 그 모양.
+   머리띠·히어로·바닥이 같은 얼굴을 쓴다.
+
+   `gradientId` 를 주면 보라 그라데이션으로 채우고, 안 주면 currentColor 로 칠한다.
+   SVG 의 <defs> id 는 문서에서 하나뿐이어야 하므로 부르는 쪽이 이름을 짓는다 —
+   같은 이름이 두 번 있으면 둘째부터 첫째의 그라데이션을 본다. */
+
+const STAR_PATH =
+  "M50 12 C58.36 36.624 63.376 41.64 88 50 C63.376 58.36 58.36 63.376 50 88 " +
+  "C41.64 63.376 36.624 58.36 12 50 C36.624 41.64 41.64 36.624 50 12 Z";
+
+export default function StarMark({
+  gradientId,
+  className,
+}: {
+  gradientId?: string;
+  className?: string;
+}) {
+  return (
+    <svg className={className} viewBox="0 0 100 100" aria-hidden="true">
+      {gradientId ? (
+        <defs>
+          <linearGradient
+            id={gradientId}
+            x1="14"
+            y1="86"
+            x2="86"
+            y2="14"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0" style={{ stopColor: "var(--primary)" }} />
+            <stop offset="1" style={{ stopColor: "var(--primary-lit)" }} />
+          </linearGradient>
+        </defs>
+      ) : null}
+      <path
+        d={STAR_PATH}
+        fill={gradientId ? `url(#${gradientId})` : "currentColor"}
+      />
+    </svg>
+  );
+}
+
+export { STAR_PATH };

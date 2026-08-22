@@ -2,13 +2,14 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
   backdrop-filter: blur(0.75rem);
-  border-bottom: 1px solid var(--divider);
+  /* px — 헤어라인. 글자를 따라 굵어질 것이 아니다. */
+  border-bottom: 1px solid color-mix(in srgb, var(--divider) 70%, transparent);
 }
 
 .headerInner {
-  max-width: 64rem;
+  max-width: var(--shell);
   margin: 0 auto;
   padding: var(--s1h) var(--s2);
   display: flex;
@@ -22,63 +23,75 @@
   align-items: center;
   gap: var(--s1);
   color: var(--text);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   letter-spacing: -0.02em;
 }
 .brand:hover { text-decoration: none; }
 
 .star {
-  width: 0.75rem;
-  height: 0.75rem;
-  border-radius: 50%;
-  background: var(--brand-gradient);
-  box-shadow: var(--shadow-brand);
+  width: 1.125rem;
+  height: 1.125rem;
+  /* px — 장식의 번짐이라 글자와 함께 커지지 않는다. */
+  filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--primary) 45%, transparent));
+  transition: transform var(--motion-base) var(--ease-entering);
 }
+.brand:hover .star { transform: rotate(90deg) scale(1.08); }
 
-.brandName { font-size: 1rem; }
+.brandName { font-size: var(--fs-16); }
 
 .main {
-  max-width: 64rem;
+  max-width: var(--shell);
   margin: 0 auto;
   padding: var(--s5) var(--s2) var(--s6);
 }
 
 .footer {
-  border-top: 1px solid var(--divider);
+  position: relative;
+  /* 하늘이 이 판 안에 갇히도록 */
+  isolation: isolate;
+  overflow: hidden;
   margin-top: var(--s6);
-  background:
-    radial-gradient(30rem 12rem at 50% 130%, color-mix(in srgb, var(--primary) 6%, transparent), transparent 70%);
+  /* px — 헤어라인. */
+  border-top: 1px solid color-mix(in srgb, var(--divider) 70%, transparent);
+  background: var(--band);
+}
+
+/* 바닥의 하늘은 위에서 스며 나온다 — 첫 화면과 마스크 방향이 반대다. */
+.footerSky {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 65%);
+  mask-image: linear-gradient(to bottom, transparent, #000 65%);
 }
 
 .footerInner {
-  max-width: 64rem;
+  max-width: var(--shell);
   margin: 0 auto;
-  padding: var(--s3) var(--s2);
+  padding: var(--s5) var(--s2);
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s1);
+  gap: var(--s2);
   justify-content: space-between;
   align-items: center;
   color: var(--text-faint);
-  font-size: 0.8125rem;
+  font-size: var(--fs-12);
 }
 
 .footerLine { margin: 0; }
-.footerLink { color: var(--text-sub); }
+.footerLink { color: var(--text-sub); font-weight: var(--fw-medium); }
 
 @media (min-width: 48em) {
   .headerInner, .main, .footerInner { padding-left: var(--s3); padding-right: var(--s3); }
   .main { padding-top: var(--s6); }
+  .footerInner { padding-block: var(--s6); }
 }
 
 /* 언어 고르기 — 꼬리말 안, 한 줄로 흐르고 좁으면 접힌다 */
 .footerLocales {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 0.75rem;
+  gap: var(--s0) var(--s1h);
   justify-content: center;
 }
 .footerLocales a[aria-current="true"] {
   color: var(--accent);
-  font-weight: 600;
+  font-weight: var(--fw-semibold);
 }

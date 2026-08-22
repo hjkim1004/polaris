@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Aurora from "@/components/Aurora";
 import { readSite } from "@/lib/content.mjs";
 import "./globals.css";
 
@@ -29,7 +30,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <script dangerouslySetInnerHTML={{ __html: themeBoot }} />
       </head>
-      <body>{children}</body>
+      <body>
+        {/* 하늘은 어느 언어의 화면에나 걸린다 — 껍데기의 말과 달리 언어를 타지 않는다. */}
+        <Aurora />
+        {children}
+      </body>
     </html>
   );
 }

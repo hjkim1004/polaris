@@ -1,0 +1,74 @@
+/* 뷰포트에 붙박이로 깔린다 — 스크롤을 따라오지 않고 창 뒤에 걸린 하늘로 남는다.
+   radial-gradient 자체가 부드러우므로 filter: blur() 를 쓰지 않는다.
+   큰 면에 거는 blur 는 매 프레임 다시 칠해져서 스크롤을 무겁게 만든다. */
+
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: var(--sky-veil);
+}
+
+/* will-change 를 걸어 두지 않는다 — 화면만 한 면 셋을 내내 별도 레이어로 띄워 두면
+   스크롤할 때마다 그 셋을 다시 합성한다. 필요하면 브라우저가 알아서 띄운다. */
+.veil {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.one {
+  top: -28vh;
+  left: -10vw;
+  width: 78vw;
+  height: 78vh;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--primary) 16%, transparent),
+    transparent 70%
+  );
+  animation: drift1 var(--motion-drift) ease-in-out infinite alternate;
+}
+
+.two {
+  top: -34vh;
+  right: -18vw;
+  width: 70vw;
+  height: 70vh;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--primary-lit) 14%, transparent),
+    transparent 70%
+  );
+  animation: drift2 calc(var(--motion-drift) * 1.45) ease-in-out infinite alternate;
+}
+
+/* 셋째 장막은 아래쪽에 걸려 바닥을 받친다 — 화면 끝이 그냥 끊기지 않도록. */
+.three {
+  bottom: -40vh;
+  left: 22vw;
+  width: 66vw;
+  height: 66vh;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--accent) 11%, transparent),
+    transparent 70%
+  );
+  animation: drift3 calc(var(--motion-drift) * 1.9) ease-in-out infinite alternate;
+}
+
+@keyframes drift1 {
+  to { transform: translate3d(6vw, 5vh, 0) scale(1.12); }
+}
+@keyframes drift2 {
+  to { transform: translate3d(-7vw, 7vh, 0) scale(1.16); }
+}
+@keyframes drift3 {
+  to { transform: translate3d(5vw, -6vh, 0) scale(1.1); }
+}
+
+/* 전역 규칙은 시간을 0으로 줄일 뿐이라 무한 반복은 깜빡임이 된다 — 여기서 멈춘다. */
+@media (prefers-reduced-motion: reduce) {
+  .veil { animation: none; }
+}

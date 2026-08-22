@@ -2,6 +2,8 @@ import Link from "next/link";
 import { readSite } from "@/lib/content.mjs";
 import { strings } from "@/lib/i18n";
 import { LOCALES } from "@/lib/labels";
+import StarMark from "@/components/StarMark";
+import Starfield from "@/components/Starfield";
 import ThemeToggle from "@/components/ThemeToggle";
 import styles from "@/app/layout.module.css";
 
@@ -28,7 +30,7 @@ export default function Chrome({
       <header className={styles.header}>
         <div className={styles.headerInner}>
           <Link href={locale === site.defaultLocale ? "/" : `/${locale}/`} className={styles.brand}>
-            <span className={styles.star} aria-hidden="true" />
+            <StarMark gradientId="twinkle-brand" className={styles.star} />
             <span className={styles.brandName}>{site.name}</span>
           </Link>
           <ThemeToggle toLight={t.toLight} toDark={t.toDark} />
@@ -36,6 +38,14 @@ export default function Chrome({
       </header>
       <main className={styles.main}>{children}</main>
       <footer className={styles.footer}>
+        {/* 바닥에도 하늘 한 자락 — 첫 화면과 마지막 화면이 같은 말로 끝난다. */}
+        <Starfield
+          seed={19910104}
+          height="100%"
+          dots={24}
+          sparkles={3}
+          className={styles.footerSky}
+        />
         <div className={styles.footerInner}>
           <p className={styles.footerLine}>
             {site.name}
