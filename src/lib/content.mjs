@@ -12,6 +12,10 @@ import path from "node:path";
 
 export const CONTENT_DIR = path.join(process.cwd(), "content");
 const APPS_DIR = path.join(CONTENT_DIR, "apps");
+/* 앱의 얼굴이 사는 곳. 규칙은 파일 이름 하나다 — `public/apps/<slug>.png` 를 놓으면
+   그 앱이 제 아이콘으로 서고, 없으면 이름의 첫 글자가 대신 선다.
+   설정에 한 줄 더 적게 하지 않는다: 놓는 것이 곧 켜는 것이다. */
+const ICONS_DIR = path.join(process.cwd(), "public", "apps");
 
 /* ── 파일 머리말 ────────────────────────────────────────────── */
 
@@ -86,7 +90,10 @@ export function readSite(locale) {
   const site = readJson(path.join(CONTENT_DIR, "site.json"), {});
   const at = locale ?? site.defaultLocale ?? "ko";
   return {
+    // 보관소의 이름은 Polaris 다 — 운영자의 이름(Twinkle AI Labs)과 다른 것이고,
+    // 약관 본문에서 «운영자»라고 불리는 쪽은 아래 operator 다.
     name: site.name || "Polaris",
+    operator: site.operator || "",
     tagline: pick(site.tagline, at, site.defaultLocale || "ko"),
     domain: site.domain || "",
     contactEmail: site.contactEmail || "",
@@ -109,12 +116,16 @@ export function readApp(slug, locale) {
   if (!fs.existsSync(file)) return null;
   const meta = readJson(file, {});
   const at = locale ?? "ko";
+  const icon = fs.existsSync(path.join(ICONS_DIR, `${slug}.png`))
+    ? `/apps/${slug}.png`
+    : "";
   return {
     slug,
     name: pick(meta.name, at) || slug,
     description: pick(meta.description, at),
     defaultLocale: meta.defaultLocale || "ko",
     homepage: meta.homepage || "",
+    icon,
   };
 }
 

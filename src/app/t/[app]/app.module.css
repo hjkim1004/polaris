@@ -5,6 +5,14 @@
 }
 .crumb a { color: var(--text-sub); }
 
+.icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--s2);
+  box-shadow: var(--shadow-card);
+}
+
 .intro { max-width: 40rem; margin-bottom: var(--s4); }
 
 .title { font-size: 1.625rem; font-weight: 800; letter-spacing: -0.03em; }

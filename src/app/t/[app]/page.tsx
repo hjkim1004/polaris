@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -53,6 +54,10 @@ export default async function AppPage({ params }: { params: Promise<{ app: strin
       </nav>
 
       <div className={styles.intro}>
+        {/* 앱은 제 얼굴로 선다 — 홈의 카드에서 본 그 얼굴 그대로. */}
+        {meta.icon ? (
+          <Image className={styles.icon} src={meta.icon} alt="" width={112} height={112} />
+        ) : null}
         <h1 className={styles.title}>{meta.name}</h1>
         {meta.description ? <p className={styles.lead}>{meta.description}</p> : null}
       </div>

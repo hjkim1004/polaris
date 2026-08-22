@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { listApps, listDocs, publishedLocales, readSite } from "@/lib/content.mjs";
 import StarMark from "@/components/StarMark";
@@ -60,9 +61,20 @@ export default function HomeBody({ locale }: { locale: string }) {
           {apps.map((app) => (
             <li key={app.slug}>
               <Link href={`/t/${app.slug}/`} className={styles.card}>
-                <span className={styles.monogram} aria-hidden="true">
-                  {app.name.trim().charAt(0)}
-                </span>
+                {/* 앱은 제 얼굴로 선다 — 아이콘이 없을 때에만 첫 글자가 대신한다. */}
+                {app.icon ? (
+                  <Image
+                    className={styles.icon}
+                    src={app.icon}
+                    alt=""
+                    width={96}
+                    height={96}
+                  />
+                ) : (
+                  <span className={styles.monogram} aria-hidden="true">
+                    {app.name.trim().charAt(0)}
+                  </span>
+                )}
                 <span className={styles.arrow} aria-hidden="true">↗</span>
                 <span className={styles.cardName}>{app.name}</span>
                 {app.description ? <span className={styles.cardDesc}>{app.description}</span> : null}

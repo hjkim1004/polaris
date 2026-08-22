@@ -106,7 +106,17 @@
   box-shadow: var(--shadow-lift);
 }
 
-/* 앱의 첫 글자가 문장(紋章)이 된다 — 아이콘이 없어도 얼굴이 생긴다. */
+/* 앱의 얼굴. 아이콘도 문장도 같은 자리에 같은 크기로 선다 —
+   둘이 크기가 다르면 목록에서 카드마다 제목 높이가 어긋난다. */
+.icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--s0);
+  box-shadow: var(--shadow-card);
+}
+
+/* 아이콘이 없을 때 앱의 첫 글자가 문장(紋章)이 된다. */
 .monogram {
   width: 3rem;
   height: 3rem;

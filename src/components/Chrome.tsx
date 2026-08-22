@@ -69,11 +69,16 @@ export default function Chrome({
               </Link>
             ))}
           </nav>
-          {site.contactEmail ? (
-            <a href={`mailto:${site.contactEmail}`} className={styles.footerLink}>
-              {site.contactEmail}
-            </a>
-          ) : null}
+          {/* 이 집의 이름은 Polaris 이고, 그것을 운영하는 이름은 따로 있다.
+              약관이 «운영자»라고 부르는 쪽을 바닥에서 한 번 밝혀 둔다. */}
+          <p className={styles.footerOperator}>
+            {site.operator ? <span className={styles.operatorName}>{site.operator}</span> : null}
+            {site.contactEmail ? (
+              <a href={`mailto:${site.contactEmail}`} className={styles.footerLink}>
+                {site.contactEmail}
+              </a>
+            ) : null}
+          </p>
         </div>
       </footer>
     </>

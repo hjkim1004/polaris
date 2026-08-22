@@ -1,5 +1,8 @@
 export type Site = {
+  /** 보관소의 이름 — Polaris. 운영자의 이름과 다른 것이다. */
   name: string;
+  /** 약관 본문에서 «운영자»라고 불리는 쪽 — Twinkle AI Labs. */
+  operator: string;
   tagline: string;
   domain: string;
   contactEmail: string;
@@ -12,6 +15,7 @@ export type AppMeta = {
   description: string;
   defaultLocale: string;
   homepage: string;
+  icon: string;
 };
 export type DocMeta = { slug: string; appSlug: string; name: string; kind: string; order: number };
 export type VersionDoc = {
