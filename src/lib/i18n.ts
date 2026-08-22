@@ -117,7 +117,7 @@ const ja: Strings = {
   },
 };
 
-const zh: Strings = {
+const zhCN: Strings = {
   archive: "条款与政策",
   allApps: "全部应用",
   effectiveOn: "生效日期",
@@ -146,8 +146,8 @@ const zh: Strings = {
   },
 };
 
-const zhHant: Strings = {
-  ...zh,
+const zhTW: Strings = {
+  ...zhCN,
   archive: "條款與政策",
   allApps: "全部應用程式",
   effectiveOn: "生效日期",
@@ -262,7 +262,110 @@ const fr: Strings = {
   },
 };
 
-const TABLE: Record<string, Strings> = { ko, en, ja, zh, "zh-Hant": zhHant, es, de, fr };
+
+const it: Strings = {
+  archive: "Termini e informative",
+  allApps: "Tutte le app",
+  effectiveOn: "In vigore dal",
+  edition: "Versione",
+  language: "Lingua",
+  editionNo: (n) => `Versione ${n}`,
+  effectiveSince: (date) => `In vigore dal ${date}`,
+  upcoming: (date, n) => `La versione ${n} entrerà in vigore il ${date}.`,
+  archivedNotice: "Questa è una versione passata — quella in vigore è",
+  currentOne: (kind) => `${kind} in vigore`,
+  pastVersions: "Versioni precedenti",
+  docCount: (n) => `${n} documenti`,
+  nothingPublished: "Non è ancora stato pubblicato nulla.",
+  pickLanguage: "Scegli la lingua",
+  toLight: "Passa al tema chiaro",
+  toDark: "Passa al tema scuro",
+  notFoundTitle: "Qui non c'è nulla",
+  notFoundBody: "Controlla l'indirizzo oppure torna all'inizio e scegli un'app.",
+  notFoundCta: "Vedi tutte le app",
+  kinds: {
+    terms: "Termini di servizio",
+    privacy: "Informativa sulla privacy",
+    opensource: "Note open source",
+    refund: "Politica di rimborso",
+    custom: "Documento",
+  },
+};
+
+const ptBR: Strings = {
+  archive: "Termos e políticas",
+  allApps: "Todos os aplicativos",
+  effectiveOn: "Em vigor desde",
+  edition: "Versão",
+  language: "Idioma",
+  editionNo: (n) => `Versão ${n}`,
+  effectiveSince: (date) => `Em vigor desde ${date}`,
+  upcoming: (date, n) => `A versão ${n} entra em vigor em ${date}.`,
+  archivedNotice: "Esta é uma versão anterior — a que vale agora é",
+  currentOne: (kind) => `${kind} em vigor`,
+  pastVersions: "Versões anteriores",
+  docCount: (n) => `${n} documentos`,
+  nothingPublished: "Nada publicado ainda.",
+  pickLanguage: "Escolher idioma",
+  toLight: "Mudar para o tema claro",
+  toDark: "Mudar para o tema escuro",
+  notFoundTitle: "Não há nada aqui",
+  notFoundBody: "Confira o endereço ou volte ao início e escolha um aplicativo.",
+  notFoundCta: "Ver todos os aplicativos",
+  kinds: {
+    terms: "Termos de serviço",
+    privacy: "Política de privacidade",
+    opensource: "Avisos de código aberto",
+    refund: "Política de reembolso",
+    custom: "Documento",
+  },
+};
+
+const id: Strings = {
+  archive: "Ketentuan dan kebijakan",
+  allApps: "Semua aplikasi",
+  effectiveOn: "Berlaku sejak",
+  edition: "Versi",
+  language: "Bahasa",
+  editionNo: (n) => `Versi ${n}`,
+  effectiveSince: (date) => `Berlaku sejak ${date}`,
+  upcoming: (date, n) => `Versi ${n} berlaku mulai ${date}.`,
+  archivedNotice: "Ini versi lama — yang berlaku sekarang adalah",
+  currentOne: (kind) => `${kind} yang berlaku`,
+  pastVersions: "Versi sebelumnya",
+  docCount: (n) => `${n} dokumen`,
+  nothingPublished: "Belum ada dokumen yang diterbitkan.",
+  pickLanguage: "Pilih bahasa",
+  toLight: "Ke tampilan terang",
+  toDark: "Ke tampilan gelap",
+  notFoundTitle: "Tidak ada apa pun di sini",
+  notFoundBody: "Periksa kembali alamatnya, atau kembali ke awal dan pilih aplikasi.",
+  notFoundCta: "Lihat semua aplikasi",
+  kinds: {
+    terms: "Ketentuan Layanan",
+    privacy: "Kebijakan Privasi",
+    opensource: "Pemberitahuan sumber terbuka",
+    refund: "Kebijakan pengembalian dana",
+    custom: "Dokumen",
+  },
+};
+
+/*
+ * 열쇠는 **앱이 부르는 코드**다.
+ *
+ * 안드로이드 앱이 `policy_locale` 로 보내는 그대로여야 `/api/v1/…/<locale>.json` 이 맞는다.
+ * 그래서 중국어가 `zh`·`zh-Hant` 가 아니라 `zh-CN`·`zh-TW` 다 — 표준이 하나가 아닐 때는
+ * **먼저 배포된 쪽**에 맞춘다. 이미 사용자의 기기에 들어가 있는 코드는 우리가 못 바꾼다.
+ * `zh` 하나만 오는 경우를 위해 별칭을 남겨 둔다.
+ */
+const TABLE: Record<string, Strings> = {
+  ko, en, ja, es, de, fr, it, id,
+  "zh-CN": zhCN,
+  "zh-TW": zhTW,
+  "pt-BR": ptBR,
+  zh: zhCN,
+  pt: ptBR,
+};
 
 /** 화면의 말 한 벌. 모르는 언어는 영어로 — 한국어로 되돌리면 못 읽는 사람이 생긴다. */
 export function strings(locale: string): Strings {
