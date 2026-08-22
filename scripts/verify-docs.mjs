@@ -48,19 +48,40 @@ const NOT_YET = {
   "감독기관에 대한 불복": "관할마다 기관이 다르다. 관할별로 적어야 한다",
 };
 
-/** 관할 — 근거 법과, 그 나라가 «아동»으로 보는 나이 */
+/**
+ * **연령 기준은 우리 제품의 진술이지 각 나라 법의 인용이 아니다.**
+ *
+ * 문서에 적힌 문장은 «이 앱은 만 N세 미만을 대상으로 만들어지지 않았다»이다.
+ * 그건 «그 나라의 디지털 동의 연령이 몇 살인가»가 아니라 **우리가 누구를 대상으로
+ * 만들었나**를 말하는 자리라, 나라마다 다를 이유가 없다.
+ *
+ * 한때 관할마다 다른 숫자를 적어 뒀었다. 그런데 그 숫자들은 성격이 서로 달랐다 —
+ * 어떤 것은 GDPR 8조의 디지털 동의 연령, 어떤 것은 그 나라 개인정보법의 «아동» 정의,
+ * 어떤 것은 미국 COPPA. **다른 것들을 나란히 놓고 «기준»이라 부르고 있었다.**
+ *
+ * 그래서 하나로 모으고, 아는 것 중 **가장 엄한 쪽**(독일 16)에 맞췄다.
+ * 이러면 어느 관할에서도 «우리가 더 넓게 잡았다»가 되지 낮게 잡은 것이 되지 않는다.
+ */
+const POLICY_AGE = 16;
+
+/**
+ * 관할별 참고값 — **보고에만 쓴다.** 우리 숫자가 이보다 낮아지면 경고한다.
+ *
+ * `sure: false` 는 «확신 없음»이다. 아는 척 적어 두는 것보다 모른다고 적는 편이 낫다 —
+ * 다음 사람이 이 표를 근거로 삼을 수 있기 때문이다.
+ */
 const JURISDICTIONS = {
-  ko: { name: "대한민국", law: "개인정보 보호법", childAge: 14 },
-  en: { name: "영어권(기본)", law: "—", childAge: 13 },
-  de: { name: "독일", law: "GDPR + BDSG", childAge: 16 },
-  fr: { name: "프랑스", law: "GDPR + Loi Informatique et Libertés", childAge: 15 },
-  es: { name: "스페인", law: "GDPR + LOPDGDD", childAge: 14 },
-  it: { name: "이탈리아", law: "GDPR + Codice Privacy", childAge: 14 },
-  "pt-BR": { name: "브라질", law: "LGPD", childAge: 12 },
-  ja: { name: "일본", law: "個人情報保護法", childAge: 15 },
-  "zh-CN": { name: "중국", law: "个人信息保护法(PIPL)", childAge: 14 },
-  "zh-TW": { name: "대만", law: "個人資料保護法", childAge: 14 },
-  id: { name: "인도네시아", law: "UU PDP", childAge: 17 },
+  ko: { name: "대한민국", law: "개인정보 보호법", localAge: 14, sure: true, what: "법정대리인 동의가 필요한 나이" },
+  en: { name: "영어권(기본)", law: "COPPA(미국)", localAge: 13, sure: true, what: "COPPA 의 아동 기준" },
+  de: { name: "독일", law: "GDPR 8조 + BDSG", localAge: 16, sure: true, what: "디지털 동의 연령" },
+  fr: { name: "프랑스", law: "GDPR 8조", localAge: 15, sure: true, what: "디지털 동의 연령" },
+  es: { name: "스페인", law: "GDPR 8조 + LOPDGDD", localAge: 14, sure: true, what: "디지털 동의 연령" },
+  it: { name: "이탈리아", law: "GDPR 8조", localAge: 14, sure: true, what: "디지털 동의 연령" },
+  "zh-CN": { name: "중국", law: "PIPL", localAge: 14, sure: true, what: "이 아래는 민감정보로 본다" },
+  "pt-BR": { name: "브라질", law: "LGPD", localAge: 12, sure: false, what: "«criança» 정의로 알고 있으나 확인 못 함" },
+  ja: { name: "일본", law: "個人情報保護法", localAge: 15, sure: false, what: "법에 숫자가 없다. 가이드라인 관행" },
+  "zh-TW": { name: "대만", law: "個人資料保護法", localAge: null, sure: false, what: "이 법에 연령 조항을 찾지 못했다" },
+  id: { name: "인도네시아", law: "UU PDP", localAge: null, sure: false, what: "확인 못 함" },
 };
 
 // ── 읽기 ────────────────────────────────────────────────────────────
@@ -189,9 +210,21 @@ for (const app of readdirSync(APPS)) {
         } else {
           for (const [topic, kws] of Object.entries(REQUIRED_EVERYWHERE))
             if (!kws.some((k) => body.includes(k))) fail(`${where}: «${topic}» 가 문서에서 안 보인다`);
-          const age = body.match(/(\d{2})\s*(?:세|歳|周岁|歲|years|Jahren|años|ans|anni|anos|tahun)/);
-          if (age && Number(age[1]) !== j.childAge)
-            notes.push(`${where}: 연령 ${age[1]} · ${j.name}(${j.law}) 기준 ${j.childAge}`);
+          /*
+           * 단위말로 찾지 않는다 — «under 16» 처럼 숫자 뒤에 아무것도 안 붙는 언어가 있다.
+           * 방침 본문에 두 자리 수는 연령 하나뿐이므로 그냥 두 자리 수를 센다.
+           */
+          const ages = [...new Set([...body.matchAll(/(?<![\w.])(\d{2})(?![\w.])/g)].map((m) => m[1]))];
+          const age = ages.length === 1 ? [null, ages[0]] : null;
+          if (ages.length > 1) fail(`${where}: 두 자리 수가 여럿이다 [${ages}] — 어느 것이 연령인지 알 수 없다`);
+          if (!age) {
+            fail(`${where}: 연령 문장이 없다`);
+          } else if (Number(age[1]) !== POLICY_AGE) {
+            // 한 벌이어야 한다 — 언어마다 다른 숫자를 적으면 언어마다 다른 약속이 된다
+            fail(`${where}: 연령 ${age[1]} ≠ 우리 기준 ${POLICY_AGE}`);
+          } else if (j.sure && j.localAge != null && POLICY_AGE < j.localAge) {
+            fail(`${where}: 우리 기준 ${POLICY_AGE} 이 ${j.name}(${j.law}) 의 ${j.localAge} 보다 낮다`);
+          }
         }
       }
     }
@@ -208,6 +241,14 @@ if (problems.length) {
 } else {
   console.log("✓ 어긋남 없음\n");
 }
+
+console.log(`── 연령 기준 ── 우리 진술: 만 ${POLICY_AGE}세 미만 대상 아님 (아는 것 중 가장 엄한 쪽에 맞춤)`);
+for (const [loc, j] of Object.entries(JURISDICTIONS)) {
+  const mark = j.sure ? " " : "?";
+  const val = j.localAge == null ? "—" : String(j.localAge);
+  console.log(`  ${mark} ${loc.padEnd(6)} ${val.padStart(2)}  ${j.name} · ${j.law} — ${j.what}`);
+}
+console.log("  ? = 확신 없음. 아는 척 적어 두는 것보다 모른다고 적는 편이 낫다\n");
 
 console.log("── 아직 없는 항목 (관할 공통) ──");
 for (const [topic, why] of Object.entries(NOT_YET)) console.log(`   ${topic}\n      ${why}`);
