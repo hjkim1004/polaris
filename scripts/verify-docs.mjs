@@ -202,6 +202,42 @@ for (const app of readdirSync(APPS)) {
       if (locale !== "ko" && (/[가-힣]/.test(front.title) || /[가-힣]/.test(front.summary)))
         fail(`${where}: 머리말(title·summary)에 한글이 남아 있다`);
 
+      // ── 축 1 · 용어 한 벌 ──
+      // 한 문서 안에서 같은 것을 두 낱말로 부르면, 읽는 사람은 그 둘이 다른 것인 줄 안다.
+      // 약관에서 «운영자»와 «제공자»가 섞이면 누가 책임을 지는지가 흐려진다.
+      const TERM_PAIRS = {
+        ko: [["운영자", ["제공자", "사업자", "당사"]], ["이용자", ["사용자", "고객"]]],
+        en: [["Operator", ["Provider", "Company", "we ", "us "]], ["Service", ["Application", "Product"]]],
+        de: [["Betreiber", ["Anbieter", "Unternehmen"]]],
+        fr: [["Opérateur", ["Fournisseur", "Société"]]],
+        it: [["Gestore", ["Fornitore", "Società"]]],
+        es: [["Operador", ["Proveedor", "Empresa"]]],
+        "pt-BR": [["Operador", ["Fornecedor", "Empresa"]]],
+        ja: [["運営者", ["提供者", "事業者"]]],
+        "zh-CN": [["运营者", ["提供者", "本公司"]]],
+        "zh-TW": [["運營者", ["提供者", "本公司"]]],
+        id: [["Pengelola", ["Penyedia", "Perusahaan"]]],
+      };
+      for (const [chosen, rivals] of TERM_PAIRS[locale] ?? []) {
+        if (!body.includes(chosen)) continue;
+        for (const rival of rivals)
+          if (body.includes(rival))
+            fail(`${where}: «${chosen}» 와 «${rival}» 가 섞여 있다 — 같은 것은 한 낱말로`);
+      }
+
+      // ── 축 1 · 제목이 그 언어의 조문 문법인가 ──
+      // 정본의 «제1조 (목적)» 을 «1. Purpose» 로 옮기는 것은 맞지만, 번호가 아예 없으면
+      // 조항을 가리킬 수 없다 — 약관에서 «제5조에 따라»는 장식이 아니라 주소다
+      // 아라비아 숫자만 세면 안 된다 — 중국어 조문은 «第一条» 처럼 한자 숫자를 쓰는 것이
+      // 그 나라 법률문서의 문법이다. 이 검사는 그것을 **틀렸다고 잡았었다**(검사가 틀렸다)
+      const NUMERAL = /[\d一二三四五六七八九十]/;
+      const countNumbered = (t) =>
+        t.split("\n").filter((l) => /^##\s/.test(l)).filter((l) => NUMERAL.test(l)).length;
+      const numbered = countNumbered(body);
+      const canonNumbered = countNumbered(canon.body);
+      if (numbered !== canonNumbered)
+        fail(`${where}: 번호가 붙은 제목 ${numbered} ≠ 정본 ${canonNumbered} — 조항을 가리킬 수 없게 된다`);
+
       // ── 축 2 · 관할 대장 ──
       if (kind === "privacy") {
         const j = JURISDICTIONS[locale];
