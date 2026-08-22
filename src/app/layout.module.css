@@ -70,3 +70,15 @@
   .headerInner, .main, .footerInner { padding-left: var(--s3); padding-right: var(--s3); }
   .main { padding-top: var(--s6); }
 }
+
+/* 언어 고르기 — 꼬리말 안, 한 줄로 흐르고 좁으면 접힌다 */
+.footerLocales {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  justify-content: center;
+}
+.footerLocales a[aria-current="true"] {
+  color: var(--accent);
+  font-weight: 600;
+}

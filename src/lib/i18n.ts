@@ -27,6 +27,10 @@ export type Strings = {
   notFoundTitle: string;
   notFoundBody: string;
   notFoundCta: string;
+  /** 홈의 한 줄 소개 — site.json 의 tagline 이 그 언어로 없을 때 대신 선다 */
+  homeLead: string;
+  blankTitle: string;
+  blankBody: string;
   kinds: Record<string, string>;
 };
 
@@ -50,6 +54,9 @@ const ko: Strings = {
   notFoundTitle: "여기엔 아무 약관도 없습니다",
   notFoundBody: "주소를 다시 확인하시거나, 처음으로 돌아가 앱을 골라주세요.",
   notFoundCta: "모든 앱 보기",
+  homeLead: "여러 앱의 약관을 한 곳에 두고, 어느 앱에서든 같은 주소로 엽니다.",
+  blankTitle: "아직 등록된 앱이 없습니다",
+  blankBody: "편집기를 열어 첫 앱을 등록하세요.",
   kinds: {
     terms: "이용약관",
     privacy: "개인정보 처리방침",
@@ -79,6 +86,9 @@ const en: Strings = {
   notFoundTitle: "There is nothing here",
   notFoundBody: "Check the address, or go back and pick an app.",
   notFoundCta: "See all apps",
+  homeLead: "Every app’s terms in one place, opened from the same address wherever you are.",
+  blankTitle: "No apps yet",
+  blankBody: "Open the editor and add your first app.",
   kinds: {
     terms: "Terms of Service",
     privacy: "Privacy Policy",
@@ -108,6 +118,9 @@ const ja: Strings = {
   notFoundTitle: "ここには何もありません",
   notFoundBody: "アドレスをご確認いただくか、最初に戻ってアプリをお選びください。",
   notFoundCta: "すべてのアプリを見る",
+  homeLead: "いくつものアプリの規約を一か所に置き、どのアプリからも同じアドレスで開きます。",
+  blankTitle: "まだ登録されたアプリがありません",
+  blankBody: "エディタを開いて最初のアプリを登録してください。",
   kinds: {
     terms: "利用規約",
     privacy: "プライバシーポリシー",
@@ -137,6 +150,9 @@ const zhCN: Strings = {
   notFoundTitle: "这里什么也没有",
   notFoundBody: "请检查网址，或返回首页选择应用。",
   notFoundCta: "查看全部应用",
+  homeLead: "把多个应用的条款放在一处，从任何应用都用同一个地址打开。",
+  blankTitle: "尚未登记任何应用",
+  blankBody: "打开编辑器，登记第一个应用。",
   kinds: {
     terms: "服务条款",
     privacy: "隐私政策",
@@ -166,6 +182,9 @@ const zhTW: Strings = {
   notFoundTitle: "這裡什麼也沒有",
   notFoundBody: "請檢查網址，或返回首頁選擇應用程式。",
   notFoundCta: "查看全部應用程式",
+  homeLead: "把多個應用程式的條款放在一處，從任何應用程式都用同一個位址開啟。",
+  blankTitle: "尚未登錄任何應用程式",
+  blankBody: "開啟編輯器，登錄第一個應用程式。",
   kinds: {
     terms: "服務條款",
     privacy: "隱私權政策",
@@ -195,6 +214,9 @@ const es: Strings = {
   notFoundTitle: "Aquí no hay nada",
   notFoundBody: "Comprueba la dirección o vuelve al inicio y elige una app.",
   notFoundCta: "Ver todas las apps",
+  homeLead: "Los términos de todas las apps en un solo lugar, abiertos desde la misma dirección.",
+  blankTitle: "Todavía no hay apps",
+  blankBody: "Abre el editor y registra la primera app.",
   kinds: {
     terms: "Términos del servicio",
     privacy: "Política de privacidad",
@@ -224,6 +246,9 @@ const de: Strings = {
   notFoundTitle: "Hier ist nichts",
   notFoundBody: "Prüfen Sie die Adresse oder wählen Sie auf der Startseite eine App.",
   notFoundCta: "Alle Apps ansehen",
+  homeLead: "Die Bedingungen aller Apps an einem Ort, über dieselbe Adresse erreichbar.",
+  blankTitle: "Noch keine Apps",
+  blankBody: "Öffne den Editor und lege die erste App an.",
   kinds: {
     terms: "Nutzungsbedingungen",
     privacy: "Datenschutzerklärung",
@@ -253,6 +278,9 @@ const fr: Strings = {
   notFoundTitle: "Il n'y a rien ici",
   notFoundBody: "Vérifiez l'adresse, ou revenez à l'accueil et choisissez une appli.",
   notFoundCta: "Voir toutes les applis",
+  homeLead: "Les conditions de toutes les applications au même endroit, à la même adresse.",
+  blankTitle: "Aucune application pour l’instant",
+  blankBody: "Ouvrez l’éditeur et ajoutez la première application.",
   kinds: {
     terms: "Conditions d'utilisation",
     privacy: "Politique de confidentialité",
@@ -283,6 +311,9 @@ const it: Strings = {
   notFoundTitle: "Qui non c'è nulla",
   notFoundBody: "Controlla l'indirizzo oppure torna all'inizio e scegli un'app.",
   notFoundCta: "Vedi tutte le app",
+  homeLead: "I termini di tutte le app in un unico posto, allo stesso indirizzo.",
+  blankTitle: "Nessuna app per ora",
+  blankBody: "Apri l’editor e aggiungi la prima app.",
   kinds: {
     terms: "Termini di servizio",
     privacy: "Informativa sulla privacy",
@@ -312,6 +343,9 @@ const ptBR: Strings = {
   notFoundTitle: "Não há nada aqui",
   notFoundBody: "Confira o endereço ou volte ao início e escolha um aplicativo.",
   notFoundCta: "Ver todos os aplicativos",
+  homeLead: "Os termos de todos os aplicativos em um só lugar, no mesmo endereço.",
+  blankTitle: "Nenhum aplicativo ainda",
+  blankBody: "Abra o editor e cadastre o primeiro aplicativo.",
   kinds: {
     terms: "Termos de serviço",
     privacy: "Política de privacidade",
@@ -341,6 +375,9 @@ const id: Strings = {
   notFoundTitle: "Tidak ada apa pun di sini",
   notFoundBody: "Periksa kembali alamatnya, atau kembali ke awal dan pilih aplikasi.",
   notFoundCta: "Lihat semua aplikasi",
+  homeLead: "Ketentuan semua aplikasi di satu tempat, dibuka dari alamat yang sama.",
+  blankTitle: "Belum ada aplikasi",
+  blankBody: "Buka editor dan daftarkan aplikasi pertama.",
   kinds: {
     terms: "Ketentuan Layanan",
     privacy: "Kebijakan Privasi",

@@ -1,6 +1,18 @@
 {
   "name": "Twinkle AI Labs",
-  "tagline": "우리가 만든 앱들의 약관은 여기 한 곳에 있습니다.",
+  "tagline": {
+    "ko": "우리가 만든 앱들의 약관은 여기 한 곳에 있습니다.",
+    "en": "The terms for every app we make live here, in one place.",
+    "ja": "私たちが作ったアプリの規約は、すべてここにあります。",
+    "zh-CN": "我们做的每一个应用，条款都在这里。",
+    "zh-TW": "我們做的每一個應用程式，條款都在這裡。",
+    "es": "Los términos de todas las apps que hacemos están aquí, en un solo lugar.",
+    "de": "Die Bedingungen aller Apps, die wir bauen, stehen hier an einem Ort.",
+    "fr": "Les conditions de toutes nos applications sont ici, au même endroit.",
+    "it": "I termini di tutte le app che facciamo stanno qui, in un unico posto.",
+    "pt-BR": "Os termos de todos os aplicativos que fazemos ficam aqui, em um só lugar.",
+    "id": "Ketentuan semua aplikasi yang kami buat ada di sini, dalam satu tempat."
+  },
   "domain": "polaris.twinklelabs.kr",
   "contactEmail": "twinkle.ai.labs@gmail.com",
   "defaultLocale": "ko",

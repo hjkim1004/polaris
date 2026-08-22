@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { readSite } from "@/lib/content.mjs";
-import { strings } from "@/lib/i18n";
-import ThemeToggle from "@/components/ThemeToggle";
-import Link from "next/link";
 import "./globals.css";
-import styles from "./layout.module.css";
 
 const site = readSite();
 
@@ -16,9 +12,14 @@ export const metadata: Metadata = {
 // 화면이 그려지기 전에 테마를 정한다 — 늦으면 흰 화면이 한 번 번쩍인다.
 const themeBoot = `(function(){try{var t=localStorage.getItem("polaris-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();`;
 
+/*
+ * 루트 레이아웃은 **그릇만** 든다.
+ *
+ * 머리와 발은 [Chrome] 이 그린다 — 레이아웃은 라우트의 언어를 모르는데 껍데기의 말은
+ * 언어를 따라야 하기 때문이다. 여기 남는 것은 어느 언어에서나 같은 것뿐이다:
+ * 글꼴, 테마를 먼저 정하는 한 줄, 그리고 문서의 뼈대.
+ */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const t = strings(site.defaultLocale);
-
   return (
     <html lang={site.defaultLocale} suppressHydrationWarning>
       <head>
@@ -28,31 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <script dangerouslySetInnerHTML={{ __html: themeBoot }} />
       </head>
-      <body>
-        <header className={styles.header}>
-          <div className={styles.headerInner}>
-            <Link href="/" className={styles.brand}>
-              <span className={styles.star} aria-hidden="true" />
-              <span className={styles.brandName}>{site.name}</span>
-            </Link>
-            <ThemeToggle toLight={t.toLight} toDark={t.toDark} />
-          </div>
-        </header>
-        <main className={styles.main}>{children}</main>
-        <footer className={styles.footer}>
-          <div className={styles.footerInner}>
-            <p className={styles.footerLine}>
-              {site.name}
-              {site.tagline ? ` — ${site.tagline}` : ""}
-            </p>
-            {site.contactEmail ? (
-              <a href={`mailto:${site.contactEmail}`} className={styles.footerLink}>
-                {site.contactEmail}
-              </a>
-            ) : null}
-          </div>
-        </footer>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

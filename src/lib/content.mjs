@@ -69,11 +69,25 @@ function dirs(where) {
   }
 }
 
-export function readSite() {
+/**
+ * 로케일별로 갈릴 수 있는 값 하나를 고른다.
+ *
+ * 글자 하나면 모든 언어가 그것을 쓰고(옛 내용이 그대로 돈다), 표면 `{ ko: …, en: … }` 이면
+ * 그 언어의 것을 고른다. 없으면 기본 언어, 그것도 없으면 첫 번째 — **비어 있는 화면보다
+ * 남의 언어라도 있는 편이 낫다.**
+ */
+export function pick(value, locale, fallbackLocale = "ko") {
+  if (value == null) return "";
+  if (typeof value === "string") return value;
+  return value[locale] ?? value[String(locale).split("-")[0]] ?? value[fallbackLocale] ?? Object.values(value)[0] ?? "";
+}
+
+export function readSite(locale) {
   const site = readJson(path.join(CONTENT_DIR, "site.json"), {});
+  const at = locale ?? site.defaultLocale ?? "ko";
   return {
     name: site.name || "Polaris",
-    tagline: site.tagline || "",
+    tagline: pick(site.tagline, at, site.defaultLocale || "ko"),
     domain: site.domain || "",
     contactEmail: site.contactEmail || "",
     // 목록 화면(홈·앱)에는 문서가 없으니 언어를 정해 줄 것도 없다. 사이트가 정한다.
@@ -83,21 +97,22 @@ export function readSite() {
   };
 }
 
-export function listApps() {
+export function listApps(locale) {
   return dirs(APPS_DIR)
-    .map((slug) => readApp(slug))
+    .map((slug) => readApp(slug, locale))
     .filter(Boolean)
-    .sort((a, b) => a.name.localeCompare(b.name, "ko"));
+    .sort((a, b) => a.name.localeCompare(b.name, locale || "ko"));
 }
 
-export function readApp(slug) {
+export function readApp(slug, locale) {
   const file = path.join(APPS_DIR, slug, "app.json");
   if (!fs.existsSync(file)) return null;
   const meta = readJson(file, {});
+  const at = locale ?? "ko";
   return {
     slug,
-    name: meta.name || slug,
-    description: meta.description || "",
+    name: pick(meta.name, at) || slug,
+    description: pick(meta.description, at),
     defaultLocale: meta.defaultLocale || "ko",
     homepage: meta.homepage || "",
   };

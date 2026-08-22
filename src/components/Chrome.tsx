@@ -1,0 +1,71 @@
+import Link from "next/link";
+import { readSite } from "@/lib/content.mjs";
+import { strings } from "@/lib/i18n";
+import { LOCALES } from "@/lib/labels";
+import ThemeToggle from "@/components/ThemeToggle";
+import styles from "@/app/layout.module.css";
+
+/**
+ * 화면의 껍데기 — 머리와 발.
+ *
+ * 루트 레이아웃이 아니라 **페이지가 부른다.** 레이아웃은 라우트의 언어를 모르는데,
+ * 껍데기의 말(«밝은 화면으로», 꼬리말의 한 줄 소개)은 언어를 따라야 하기 때문이다.
+ * 한국어 약관을 열었는데 머리글만 영어면 그건 덜 옮긴 것이 아니라 **읽는 사람이
+ * 어느 언어의 화면에 있는지 알 수 없게 만드는 일**이다.
+ */
+export default function Chrome({
+  locale,
+  children,
+}: {
+  locale: string;
+  children: React.ReactNode;
+}) {
+  const site = readSite(locale);
+  const t = strings(locale);
+
+  return (
+    <>
+      <header className={styles.header}>
+        <div className={styles.headerInner}>
+          <Link href={locale === site.defaultLocale ? "/" : `/${locale}/`} className={styles.brand}>
+            <span className={styles.star} aria-hidden="true" />
+            <span className={styles.brandName}>{site.name}</span>
+          </Link>
+          <ThemeToggle toLight={t.toLight} toDark={t.toDark} />
+        </div>
+      </header>
+      <main className={styles.main}>{children}</main>
+      <footer className={styles.footer}>
+        <div className={styles.footerInner}>
+          <p className={styles.footerLine}>
+            {site.name}
+            {site.tagline ? ` — ${site.tagline}` : ""}
+          </p>
+          {/*
+            언어 고르기는 꼬리말에 둔다. 이 사이트에서 언어는 «지금 할 일»이 아니라
+            «안 맞으면 바꾸는 것»이라 머리에서 자리를 차지할 이유가 없다.
+          */}
+          <nav className={styles.footerLocales} aria-label={t.pickLanguage}>
+            {LOCALES.map((l) => (
+              <Link
+                key={l.value}
+                href={l.value === site.defaultLocale ? "/" : `/${l.value}/`}
+                hrefLang={l.value}
+                lang={l.value}
+                className={styles.footerLink}
+                aria-current={l.value === locale ? "true" : undefined}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+          {site.contactEmail ? (
+            <a href={`mailto:${site.contactEmail}`} className={styles.footerLink}>
+              {site.contactEmail}
+            </a>
+          ) : null}
+        </div>
+      </footer>
+    </>
+  );
+}
