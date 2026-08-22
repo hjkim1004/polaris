@@ -5,3 +5,6 @@ next-env.d.ts
 .DS_Store
 .next-export/
 out/
+
+# 측정 ID 를 채워 넣는 자리 — 값은 저장소에 두지 않는다(.env.example 이 모양을 든다)
+.env.production
