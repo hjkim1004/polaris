@@ -8,6 +8,7 @@ import {
   readDoc,
   upcomingVersion,
 } from "@/lib/content.mjs";
+import Chrome from "@/components/Chrome";
 import DocScreen from "@/components/DocScreen";
 
 export function generateStaticParams() {
@@ -37,14 +38,16 @@ export default async function DocLocalePage({
   if (!appMeta || !docMeta || !version) notFound();
 
   return (
-    <DocScreen
-      app={appMeta}
-      doc={docMeta}
-      version={version}
-      locale={locale}
-      locales={publishedLocales(app, doc)}
-      past={pastVersions(app, doc, locale)}
-      upcoming={upcomingVersion(app, doc, locale)}
-    />
+    <Chrome locale={locale}>
+      <DocScreen
+        app={appMeta}
+        doc={docMeta}
+        version={version}
+        locale={locale}
+        locales={publishedLocales(app, doc)}
+        past={pastVersions(app, doc, locale)}
+        upcoming={upcomingVersion(app, doc, locale)}
+      />
+    </Chrome>
   );
 }

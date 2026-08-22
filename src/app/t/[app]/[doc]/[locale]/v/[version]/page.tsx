@@ -8,6 +8,7 @@ import {
   readDoc,
   readVersion,
 } from "@/lib/content.mjs";
+import Chrome from "@/components/Chrome";
 import DocScreen from "@/components/DocScreen";
 
 /**
@@ -46,15 +47,17 @@ export default async function VersionPage({
   const current = currentVersion(app, doc, locale);
 
   return (
-    <DocScreen
-      app={appMeta}
-      doc={docMeta}
-      version={found}
-      locale={locale}
-      locales={publishedLocales(app, doc)}
-      past={[]}
-      upcoming={null}
-      archived={current?.version !== found.version}
-    />
+    <Chrome locale={locale}>
+      <DocScreen
+        app={appMeta}
+        doc={docMeta}
+        version={found}
+        locale={locale}
+        locales={publishedLocales(app, doc)}
+        past={[]}
+        upcoming={null}
+        archived={current?.version !== found.version}
+      />
+    </Chrome>
   );
 }

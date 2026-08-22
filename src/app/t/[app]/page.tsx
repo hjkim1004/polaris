@@ -10,6 +10,7 @@ import {
 } from "@/lib/content.mjs";
 import { formatDate } from "@/lib/labels";
 import { strings } from "@/lib/i18n";
+import Chrome from "@/components/Chrome";
 import HtmlLang from "@/components/HtmlLang";
 import styles from "./app.module.css";
 
@@ -47,7 +48,7 @@ export default async function AppPage({ params }: { params: Promise<{ app: strin
   const t = strings(meta.defaultLocale);
 
   return (
-    <>
+    <Chrome locale={meta.defaultLocale}>
       <HtmlLang locale={meta.defaultLocale} />
       <nav className={styles.crumb}>
         <Link href="/">{t.allApps}</Link>
@@ -90,6 +91,6 @@ export default async function AppPage({ params }: { params: Promise<{ app: strin
           ))}
         </ul>
       )}
-    </>
+    </Chrome>
   );
 }

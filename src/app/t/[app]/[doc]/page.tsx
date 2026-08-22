@@ -9,6 +9,7 @@ import {
   resolve,
   upcomingVersion,
 } from "@/lib/content.mjs";
+import Chrome from "@/components/Chrome";
 import DocScreen from "@/components/DocScreen";
 import LocaleAutoSwitch from "@/components/LocaleAutoSwitch";
 
@@ -47,7 +48,7 @@ export default async function DocDefaultPage({
   const locales = publishedLocales(app, doc);
 
   return (
-    <>
+    <Chrome locale={hit.servedLocale}>
       <LocaleAutoSwitch
         available={locales}
         served={hit.servedLocale}
@@ -62,6 +63,6 @@ export default async function DocDefaultPage({
         past={pastVersions(app, doc, hit.servedLocale)}
         upcoming={upcomingVersion(app, doc, hit.servedLocale)}
       />
-    </>
+    </Chrome>
   );
 }
